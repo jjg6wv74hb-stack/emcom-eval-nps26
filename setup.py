@@ -14,7 +14,7 @@ def read_requirements(path: str) -> list[str]:
 
 
 setup(
-    name="pgg",
+    name="emcom-eval",
     version="1.0.1",
     packages=find_packages(),
     install_requires=read_requirements("requirements.txt"),

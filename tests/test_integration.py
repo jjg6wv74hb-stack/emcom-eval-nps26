@@ -1,6 +1,14 @@
+import os
+import platform
+
 import numpy as np
+import pytest
 
 from src.experiments_pgg_v0.train_ppo import minimal_test_config, train
+
+
+RUN_SUBPROC_TESTS = os.environ.get("EPGG_RUN_SUBPROC_TESTS") == "1"
+SKIP_DARWIN_SUBPROC = platform.system() == "Darwin" and not RUN_SUBPROC_TESTS
 
 
 def test_full_loop_runs(tmp_path):
@@ -61,6 +69,10 @@ def test_full_loop_runs_vectorized(tmp_path):
     assert all(int(row["steps"]) == 12 for row in metrics)
 
 
+@pytest.mark.skipif(
+    SKIP_DARWIN_SUBPROC,
+    reason="set EPGG_RUN_SUBPROC_TESTS=1 to force macOS subprocess-backend tests",
+)
 def test_full_loop_runs_vectorized_subproc(tmp_path):
     cfg = minimal_test_config(
         n_episodes=2,

@@ -1,34 +1,34 @@
 [2026-04-12 06:18:37] [train batch start] mode=fixed1 max_parallel=16
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=101 pid=295501
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=101 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed101.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=101 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed101.log
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=202 pid=295509
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=202 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed202.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=202 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed202.log
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=303 pid=295517
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=303 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed303.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=303 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed303.log
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=404 pid=295525
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=404 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed404.log
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=505 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed505.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=404 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed404.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=505 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed505.log
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=505 pid=295533
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=606 pid=295541
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=606 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed606.log
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=707 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed707.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=606 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed606.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=707 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed707.log
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=707 pid=295549
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=808 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed808.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=808 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed808.log
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=808 pid=295557
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=909 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed909.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=909 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed909.log
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=909 pid=295565
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1111 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed1111.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1111 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed1111.log
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=1111 pid=295573
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1212 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed1212.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1212 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed1212.log
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=1212 pid=295581
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=1313 pid=295589
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1313 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed1313.log
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1414 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed1414.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1313 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed1313.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1414 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed1414.log
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=1414 pid=295597
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=1515 pid=295605
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1515 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed1515.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1515 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed1515.log
 [2026-04-12 06:18:37] [launch] mode=fixed1 seed=1616 pid=295613
-[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1616 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_hetzner_20260410/train/logs/cond1_seed1616.log
+[2026-04-12 06:18:37] [seed start] mode=fixed1 seed=1616 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_fixed1_15seeds_remote_20260410/train/logs/cond1_seed1616.log
 [2026-04-12 13:37:19] [seed done] mode=fixed1 seed=505
 [2026-04-12 13:39:01] [seed done] mode=fixed1 seed=1414
 [2026-04-12 13:39:53] [seed done] mode=fixed1 seed=909

@@ -1,3 +1,6 @@
+import os
+import platform
+
 import numpy as np
 import pytest
 
@@ -14,6 +17,18 @@ from src.experiments_pgg_v0.train_ppo import (
     _seed_everything,
     _sender_ids,
     minimal_test_config,
+)
+
+
+RUN_SUBPROC_TESTS = os.environ.get("EPGG_RUN_SUBPROC_TESTS") == "1"
+SKIP_DARWIN_SUBPROC = platform.system() == "Darwin" and not RUN_SUBPROC_TESTS
+
+# These tests are useful when Python worker processes can start reliably.
+# Some macOS OpenMP builds abort in native shared-memory setup before Python
+# can report a normal worker exception, so keep an explicit opt-in there.
+pytestmark = pytest.mark.skipif(
+    SKIP_DARWIN_SUBPROC,
+    reason="set EPGG_RUN_SUBPROC_TESTS=1 to force macOS subprocess-backend tests",
 )
 
 

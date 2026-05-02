@@ -1,3 +1,0 @@
-reference_condition,reference_ablation,condition,ablation,checkpoint_episode,f_value,n_pairs,natural_mean_coop_rate,intervention_mean_coop_rate,mean_delta_natural_minus_intervention,median_delta_natural_minus_intervention,sem_delta_natural_minus_intervention,bootstrap_ci_low,bootstrap_ci_high,n_positive,n_negative,n_zero,sign_flip_p_value
-cond1,none,cond1,indep_random,150000,3.500,15,0.36893678631918264,0.32594549198092765,0.042991294338255034,0.031115786034777826,0.018790125237855674,0.009145286304298098,0.08048886227907383,11,4,0,0.0340576171875
-cond1,none,cond1,indep_random,150000,5.000,15,0.5762737034498515,0.5623832827089662,0.013890420740885348,0.016594140157209614,0.017070969144607807,-0.018271444842032,0.046709339025654203,9,6,0,0.42681884765625

@@ -1,33 +1,33 @@
 [2026-04-10 21:38:41] [train batch start] mode=learned max_parallel=16
 [2026-04-10 21:38:41] [launch] mode=learned seed=101 pid=277635
-[2026-04-10 21:38:41] [seed start] mode=learned seed=101 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed101.log
-[2026-04-10 21:38:41] [seed start] mode=learned seed=202 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed202.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=101 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed101.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=202 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed202.log
 [2026-04-10 21:38:41] [launch] mode=learned seed=202 pid=277643
 [2026-04-10 21:38:41] [launch] mode=learned seed=303 pid=277651
-[2026-04-10 21:38:41] [seed start] mode=learned seed=303 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed303.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=303 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed303.log
 [2026-04-10 21:38:41] [launch] mode=learned seed=404 pid=277658
-[2026-04-10 21:38:41] [seed start] mode=learned seed=404 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed404.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=404 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed404.log
 [2026-04-10 21:38:41] [launch] mode=learned seed=505 pid=277667
-[2026-04-10 21:38:41] [seed start] mode=learned seed=505 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed505.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=505 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed505.log
 [2026-04-10 21:38:41] [launch] mode=learned seed=606 pid=277675
-[2026-04-10 21:38:41] [seed start] mode=learned seed=606 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed606.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=606 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed606.log
 [2026-04-10 21:38:41] [launch] mode=learned seed=707 pid=277683
-[2026-04-10 21:38:41] [seed start] mode=learned seed=707 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed707.log
-[2026-04-10 21:38:41] [seed start] mode=learned seed=808 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed808.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=707 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed707.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=808 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed808.log
 [2026-04-10 21:38:41] [launch] mode=learned seed=808 pid=277691
 [2026-04-10 21:38:41] [launch] mode=learned seed=909 pid=277699
-[2026-04-10 21:38:41] [seed start] mode=learned seed=909 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed909.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=909 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed909.log
 [2026-04-10 21:38:41] [launch] mode=learned seed=1111 pid=277707
-[2026-04-10 21:38:41] [seed start] mode=learned seed=1111 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed1111.log
-[2026-04-10 21:38:41] [seed start] mode=learned seed=1212 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed1212.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=1111 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed1111.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=1212 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed1212.log
 [2026-04-10 21:38:41] [launch] mode=learned seed=1212 pid=277715
 [2026-04-10 21:38:41] [launch] mode=learned seed=1313 pid=277723
-[2026-04-10 21:38:41] [seed start] mode=learned seed=1313 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed1313.log
-[2026-04-10 21:38:41] [seed start] mode=learned seed=1414 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed1414.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=1313 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed1313.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=1414 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed1414.log
 [2026-04-10 21:38:41] [launch] mode=learned seed=1414 pid=277731
-[2026-04-10 21:38:41] [seed start] mode=learned seed=1515 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed1515.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=1515 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed1515.log
 [2026-04-10 21:38:41] [launch] mode=learned seed=1515 pid=277739
-[2026-04-10 21:38:41] [seed start] mode=learned seed=1616 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_hetzner_20260410/train/logs/cond1_seed1616.log
+[2026-04-10 21:38:41] [seed start] mode=learned seed=1616 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_learned_15seeds_remote_20260410/train/logs/cond1_seed1616.log
 [2026-04-10 21:38:41] [launch] mode=learned seed=1616 pid=277747
 [2026-04-11 07:31:27] [seed done] mode=learned seed=707
 [2026-04-11 07:34:51] [seed done] mode=learned seed=1111

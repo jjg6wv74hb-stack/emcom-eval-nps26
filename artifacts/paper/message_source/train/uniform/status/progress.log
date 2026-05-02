@@ -1,33 +1,33 @@
 [2026-04-11 15:15:38] [train batch start] mode=uniform max_parallel=16
 [2026-04-11 15:15:38] [launch] mode=uniform seed=101 pid=286710
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=101 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed101.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=101 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed101.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=202 pid=286717
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=202 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed202.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=202 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed202.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=303 pid=286725
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=303 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed303.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=303 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed303.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=404 pid=286733
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=404 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed404.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=404 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed404.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=505 pid=286741
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=505 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed505.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=505 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed505.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=606 pid=286750
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=606 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed606.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=606 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed606.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=707 pid=286758
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=707 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed707.log
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=808 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed808.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=707 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed707.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=808 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed808.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=808 pid=286766
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=909 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed909.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=909 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed909.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=909 pid=286774
 [2026-04-11 15:15:38] [launch] mode=uniform seed=1111 pid=286782
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=1111 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed1111.log
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=1212 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed1212.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=1111 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed1111.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=1212 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed1212.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=1212 pid=286790
 [2026-04-11 15:15:38] [launch] mode=uniform seed=1313 pid=286798
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=1313 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed1313.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=1313 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed1313.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=1414 pid=286806
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=1414 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed1414.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=1414 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed1414.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=1515 pid=286814
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=1515 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed1515.log
-[2026-04-11 15:15:38] [seed start] mode=uniform seed=1616 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_hetzner_20260410/train/logs/cond1_seed1616.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=1515 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed1515.log
+[2026-04-11 15:15:38] [seed start] mode=uniform seed=1616 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_uniform_15seeds_remote_20260410/train/logs/cond1_seed1616.log
 [2026-04-11 15:15:38] [launch] mode=uniform seed=1616 pid=286822
 [2026-04-11 22:37:33] [seed done] mode=uniform seed=1414
 [2026-04-11 22:38:45] [seed done] mode=uniform seed=202

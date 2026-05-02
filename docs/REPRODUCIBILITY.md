@@ -13,21 +13,10 @@ pip install -r requirements_locked.txt
 
 Quarto and a LaTeX distribution are required to render the manuscript PDF.
 
-## Artifact Zip
+## Review Artifact
 
-Build the anonymized zip under `dist/`:
-
-```bash
-python3 scripts/release/build_review_artifact.py
-```
-
-The command creates:
-
-- `dist/neurips2026_review_artifact/`
-- `dist/neurips2026_review_artifact.zip`
-
-The zip contains source, tests, docs, manuscript sources, role-allocation
-code/configs, and the summary artifacts read by
+The review artifact contains source, tests, docs, manuscript sources,
+role-allocation code/configs, and the summary artifacts read by
 `paper/neurips2026_comm_vecstraight/main.qmd`. It does not include large
 checkpoints, raw traces, full training logs, local caches, or generated Quarto
 outputs.
@@ -69,8 +58,9 @@ python3 -m pytest -q
 ```
 
 Some subprocess/vectorized-backend tests can be sensitive to OpenMP shared
-memory limits on macOS or constrained machines. The serial tests and manuscript
-render are the shortest checks.
+memory limits on macOS or constrained machines. On macOS those tests are
+skipped by default; set `EPGG_RUN_SUBPROC_TESTS=1` to force them. The serial
+tests and manuscript render are the shortest checks.
 
 For a shorter command sheet, see `docs/COMMANDS.md`.
 
@@ -92,11 +82,3 @@ The role-allocation probe code and base config are included under
 `src/environments/role_allocation/`, `src/experiments_role_allocation/`, and
 `configs/role_allocation/`. The manuscript render uses compact role-allocation
 summary CSVs and figures under `artifacts/paper/role_allocation/...`.
-
-## Check the Repo
-
-```bash
-./scripts/reproduce/check_cleanliness.sh
-```
-
-This checks for generated files and local machine paths in the source tree.

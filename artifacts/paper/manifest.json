@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-04-28T17:20:42Z",
+  "artifact_root": "artifacts/paper",
+  "large_file_threshold_bytes": 52428800,
+  "families": [
+    {
+      "path": "artifacts/paper/base_gap",
+      "file_count": 429,
+      "bytes": 1890537
+    },
+    {
+      "path": "artifacts/paper/crossover",
+      "file_count": 1703,
+      "bytes": 13165281
+    },
+    {
+      "path": "artifacts/paper/endpoint",
+      "file_count": 1413,
+      "bytes": 2337144048
+    },
+    {
+      "path": "artifacts/paper/factorial",
+      "file_count": 749,
+      "bytes": 254566155
+    },
+    {
+      "path": "artifacts/paper/message_source",
+      "file_count": 2618,
+      "bytes": 11495075698
+    },
+    {
+      "path": "artifacts/paper/noise_sweep",
+      "file_count": 1566,
+      "bytes": 7150640
+    },
+    {
+      "path": "artifacts/paper/provenance",
+      "file_count": 56,
+      "bytes": 278100
+    },
+    {
+      "path": "artifacts/paper/role_allocation",
+      "file_count": 13,
+      "bytes": 667424
+    },
+    {
+      "path": "artifacts/paper/sender_causal",
+      "file_count": 81,
+      "bytes": 1475976
+    },
+    {
+      "path": "artifacts/paper/sender_encoding",
+      "file_count": 148,
+      "bytes": 1619738632
+    },
+    {
+      "path": "artifacts/paper/transfer",
+      "file_count": 1707,
+      "bytes": 11687817
+    }
+  ],
+  "large_files": [
+    {
+      "path": "artifacts/paper/endpoint/frozen150k_expanded/report/lowdim_mechanism/filtered_trace_slice.csv",
+      "bytes": 86504352,
+      "sha256": "9f335e24c82f751e17750f3381a014d7976df435e019b75f25028e2e56d6f0c6"
+    },
+    {
+      "path": "artifacts/paper/endpoint/frozen150k_expanded/suite/checkpoint_suite_trace.csv",
+      "bytes": 571111445,
+      "sha256": "ff36100fea2498ebf7bca10e3c3ecc4043f04c90caf564b4467ac5721c91d391"
+    },
+    {
+      "path": "artifacts/paper/endpoint/frozen50k_expanded/suite/checkpoint_suite_trace.csv",
+      "bytes": 584899359,
+      "sha256": "88621243beff97f30f104e460f7dbabd82964a2b32974e2659d488777335c85b"
+    },
+    {
+      "path": "artifacts/paper/message_source/train/fixed0/suite/checkpoint_suite_trace.csv",
+      "bytes": 1124269778,
+      "sha256": "d803b74ef74c89fe054cf6f93852ae8b638b31c36c070c2dd201017cac76a80f"
+    },
+    {
+      "path": "artifacts/paper/message_source/train/fixed1/suite/checkpoint_suite_trace.csv",
+      "bytes": 1123888290,
+      "sha256": "0758d301ec2861c1b85f8d4d7ce094cfc27bbd47c3a2d6c7e39de949a8578e77"
+    },
+    {
+      "path": "artifacts/paper/message_source/train/learned/suite/checkpoint_suite_trace.csv",
+      "bytes": 1130810356,
+      "sha256": "4720ec6d22d0b6d82d2ba0a005896f0c5f8b77b8ece5294bf08deb5c6d315278"
+    },
+    {
+      "path": "artifacts/paper/message_source/train/public_random/suite/checkpoint_suite_trace.csv",
+      "bytes": 1151279230,
+      "sha256": "e4008debcf74aad28c31a4baeebd4ffae32736c2aa6fed2664e00374a738b1d7"
+    },
+    {
+      "path": "artifacts/paper/message_source/train/uniform/suite/checkpoint_suite_trace.csv",
+      "bytes": 1132293046,
+      "sha256": "57f376e389d618ec14643b27afa0b8d352c9d326b03dea67b5c79313e583476b"
+    },
+    {
+      "path": "artifacts/paper/sender_encoding/natural_intended_150k/report/sender_encoding_decomposition/filtered_trace_slice.csv",
+      "bytes": 511972866,
+      "sha256": "c2f7e13cf54f8111433eb13766c98386073d7577d24d7809800ad4fd17f11d06"
+    },
+    {
+      "path": "artifacts/paper/sender_encoding/natural_intended_150k/suite/checkpoint_suite_trace.csv",
+      "bytes": 571111445,
+      "sha256": "ff36100fea2498ebf7bca10e3c3ecc4043f04c90caf564b4467ac5721c91d391"
+    }
+  ]
+}

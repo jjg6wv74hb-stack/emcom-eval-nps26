@@ -21,7 +21,6 @@ MPLCONFIGDIR="$PWD/_output/mplconfig" quarto render main.qmd --to pdf --execute-
 ```bash
 python3 -m py_compile $(find src tests scripts -name '*.py')
 python3 -m pytest tests/test_wrapper.py tests/test_role_allocation_env.py tests/test_role_allocation_vectorized_training.py -q
-./scripts/reproduce/check_cleanliness.sh
 ```
 
 ## Short Training Runs
@@ -55,7 +54,7 @@ python3 -m src.experiments_role_allocation.train_ppo_vec \
   --total-episodes 32 \
   --num-envs 2 \
   --rollout-len 8 \
-  --horizon 20 \
+  --horizon 8 \
   --eval-episodes 4 \
   --out-dir outputs/smoke/role_allocation \
   --env-mode informant_executor \
@@ -110,7 +109,7 @@ python3 -m src.experiments_role_allocation.train_ppo_vec \
   --seed 101 \
   --total-episodes 30000 \
   --num-envs 8 \
-  --rollout-len 64 \
+  --rollout-len 100 \
   --horizon 100 \
   --eval-episodes 200 \
   --out-dir outputs/train/role_allocation \

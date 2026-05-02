@@ -19,15 +19,15 @@ The file `artifacts/paper/manifest.json` records file counts, byte sizes, and ch
 - `role_allocation/` - compact summary artifacts and figures for the hidden-need role-allocation second paradigm.
 - `provenance/` - controller, manifest, validation, and status outputs.
 
-Some raw files contain sanitized placeholders where original run paths appeared.
-Those fields are not used by the manuscript render.
+Some provenance fields use generic run labels. Those fields are not used by the
+manuscript render.
 
 ## Artifact Zip Subset
 
-The artifact zip copies only the CSV, JSONL, PDF, and PNG files consumed
-by the manuscript render. Large checkpoints, raw traces, raw suite folders, and
-full logs are not included.
+The artifact zip copies the compact CSV, JSON, JSONL, PDF, PNG, and status-log
+files consumed by the manuscript render. Large checkpoints, raw traces, raw
+suite folders, and full logs are not included.
 
-The subset is defined in `scripts/release/build_review_artifact.py`. If
-`main.qmd` reads a new artifact, update that builder and rerun the render check
-from the unpacked zip.
+The exported subset uses generic run labels in saved path fields. If `main.qmd`
+reads a new artifact, rerun the render check from the unpacked zip before
+submission.

@@ -14,18 +14,12 @@ pip install -r requirements_locked.txt
 See `docs/COMMANDS.md` for runnable commands, `docs/REPRODUCIBILITY.md`
 for installation and scope, and `docs/ARTIFACTS.md` for the artifact map.
 
-## Artifact Zip
+## Review Artifact
 
-To build the anonymized review zip:
-
-```bash
-python3 scripts/release/build_review_artifact.py
-```
-
-The `dist/neurips2026_review_artifact.zip` file contains the source code,
-tests, documentation, manuscript files, role-allocation code/configs, and the
-summary artifacts used by the manuscript render. It excludes large checkpoints,
-raw traces, local caches, and generated outputs.
+The review artifact contains the source code, tests, documentation, manuscript
+files, role-allocation code/configs, and the summary artifacts used by the
+manuscript render. It excludes large checkpoints, raw traces, local caches, and
+generated outputs.
 
 ## Layout
 
@@ -34,7 +28,6 @@ raw traces, local caches, and generated outputs.
 - `paper/neurips2026_comm_vecstraight/`: Quarto manuscript source and figure assets.
 - `artifacts/paper/`: saved training/evaluation outputs used by the manuscript. Large files are intended for Git LFS.
 - `scripts/reproduce/`: rendering and check scripts.
-- `scripts/release/`: artifact-zip builder.
 - `docs/`: reproducibility and artifact documentation.
 
 ## Manuscript Data
