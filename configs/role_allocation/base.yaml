@@ -1,0 +1,14 @@
+n_agents: 4
+num_game_iterations: 100
+need_levels: [0.0, 1.0]
+uncertainties: [0.5, 0.5, 0.5, 0.5]
+rho: 0.05
+epsilon_tremble: 0.05
+volunteer_cost: 1.0
+cost_mode: balanced
+cost_levels: [0.25, 0.75, 1.25, 1.75]
+benefit: 4.0
+miss_loss: 2.0
+redundant_penalty: 0.0
+target_volunteers: 1
+fraction: false

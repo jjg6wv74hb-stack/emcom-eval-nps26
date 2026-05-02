@@ -1,0 +1,49 @@
+[2026-04-11 07:45:25] [train batch start] mode=public_random max_parallel=16
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=101 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed101.log
+[2026-04-11 07:45:25] [launch] mode=public_random seed=101 pid=282291
+[2026-04-11 07:45:25] [launch] mode=public_random seed=202 pid=282299
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=202 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed202.log
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=303 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed303.log
+[2026-04-11 07:45:25] [launch] mode=public_random seed=303 pid=282306
+[2026-04-11 07:45:25] [launch] mode=public_random seed=404 pid=282315
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=404 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed404.log
+[2026-04-11 07:45:25] [launch] mode=public_random seed=505 pid=282322
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=505 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed505.log
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=606 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed606.log
+[2026-04-11 07:45:25] [launch] mode=public_random seed=606 pid=282331
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=707 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed707.log
+[2026-04-11 07:45:25] [launch] mode=public_random seed=707 pid=282339
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=808 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed808.log
+[2026-04-11 07:45:25] [launch] mode=public_random seed=808 pid=282347
+[2026-04-11 07:45:25] [launch] mode=public_random seed=909 pid=282355
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=909 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed909.log
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=1111 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed1111.log
+[2026-04-11 07:45:25] [launch] mode=public_random seed=1111 pid=282363
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=1212 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed1212.log
+[2026-04-11 07:45:25] [launch] mode=public_random seed=1212 pid=282371
+[2026-04-11 07:45:25] [launch] mode=public_random seed=1313 pid=282379
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=1313 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed1313.log
+[2026-04-11 07:45:25] [launch] mode=public_random seed=1414 pid=282386
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=1414 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed1414.log
+[2026-04-11 07:45:25] [launch] mode=public_random seed=1515 pid=282395
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=1515 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed1515.log
+[2026-04-11 07:45:25] [launch] mode=public_random seed=1616 pid=282403
+[2026-04-11 07:45:25] [seed start] mode=public_random seed=1616 log=<REMOTE_PROJECT_ROOT>/outputs/eval/phase3_vecstraight_clean_msgsource_public_random_15seeds_hetzner_20260410/train/logs/cond1_seed1616.log
+[2026-04-11 15:06:03] [seed done] mode=public_random seed=1616
+[2026-04-11 15:06:59] [seed done] mode=public_random seed=303
+[2026-04-11 15:07:32] [seed done] mode=public_random seed=1313
+[2026-04-11 15:07:40] [seed done] mode=public_random seed=1111
+[2026-04-11 15:07:45] [seed done] mode=public_random seed=909
+[2026-04-11 15:08:08] [seed done] mode=public_random seed=101
+[2026-04-11 15:08:12] [seed done] mode=public_random seed=1414
+[2026-04-11 15:08:20] [seed done] mode=public_random seed=1515
+[2026-04-11 15:08:23] [seed done] mode=public_random seed=404
+[2026-04-11 15:08:31] [seed done] mode=public_random seed=202
+[2026-04-11 15:10:24] [seed done] mode=public_random seed=505
+[2026-04-11 15:10:44] [seed done] mode=public_random seed=808
+[2026-04-11 15:11:11] [seed done] mode=public_random seed=1212
+[2026-04-11 15:11:44] [seed done] mode=public_random seed=707
+[2026-04-11 15:11:50] [seed done] mode=public_random seed=606
+[2026-04-11 15:11:50] [train batch done] mode=public_random status=ok
+[2026-04-11 15:11:50] [suite start] mode=public_random
+[2026-04-11 15:15:38] [suite done] mode=public_random

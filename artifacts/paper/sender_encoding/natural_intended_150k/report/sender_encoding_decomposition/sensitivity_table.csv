@@ -1,0 +1,5 @@
+category,tau_5_pp,tau_7.5_pp,tau_10_pp,tau_12.5_pp,tau_15_pp,tau_20_pp
+mixed,58,52,50,47,41,31
+regime_leaning,0,4,5,7,12,14
+action_leaning,0,2,2,1,2,7
+weak_or_unclear,2,2,3,5,5,8

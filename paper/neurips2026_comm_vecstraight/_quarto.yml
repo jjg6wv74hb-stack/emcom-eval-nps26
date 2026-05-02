@@ -1,0 +1,29 @@
+project:
+  type: default
+  output-dir: _output
+
+format:
+  pdf:
+    documentclass: article
+    pdf-engine: pdflatex
+    keep-tex: true
+    toc: false
+    number-sections: true
+    colorlinks: true
+    cite-method: natbib
+    biblio-style: plainnat
+    template-partials:
+      - title.tex
+    include-in-header:
+      - text: |
+          \usepackage[eandd]{neurips_2026}
+          \makeatletter
+          \renewcommand{\@noticestring}{Submitted to the Evaluations \& Datasets Track of NeurIPS 2026. Do not distribute.}
+          \makeatother
+          \AtEndDocument{\clearpage\input{checklist_filled.tex}}
+
+bibliography: refs.bib
+engine: jupyter
+execute:
+  echo: false
+  warning: false

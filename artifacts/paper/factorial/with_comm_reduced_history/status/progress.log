@@ -1,0 +1,47 @@
+[2026-04-15 18:06:36] [train batch start] cell=with_comm_reduced_history condition=cond1 history_mode=reduced max_parallel=15
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=101 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed101.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=101 pid=2970764
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=202 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed202.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=202 pid=2970772
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=303 pid=2970780
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=303 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed303.log
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=404 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed404.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=404 pid=2970788
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=505 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed505.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=505 pid=2970796
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=606 pid=2970804
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=606 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed606.log
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=707 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed707.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=707 pid=2970812
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=808 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed808.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=808 pid=2970821
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=909 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed909.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=909 pid=2970829
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=1111 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed1111.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=1111 pid=2970837
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=1212 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed1212.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=1212 pid=2970845
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=1313 pid=2970853
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=1313 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed1313.log
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=1414 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed1414.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=1414 pid=2970861
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=1515 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed1515.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=1515 pid=2970869
+[2026-04-15 18:06:36] [seed start] cell=with_comm_reduced_history seed=1616 log=<REMOTE_RUN_ROOT>-zeroaux-plan/phase3-vecstraight-zeroaux-comm-reduced-20260415/outputs/train/phase3_vecstraight_comm_history_factorial_with_comm_reduced_history_zeroaux_15seeds_iwr_20260415/train/logs/cond1_seed1616.log
+[2026-04-15 18:06:36] [launch] cell=with_comm_reduced_history seed=1616 pid=2970877
+[2026-04-17 04:48:43] [seed done] cell=with_comm_reduced_history seed=909
+[2026-04-17 04:55:56] [seed done] cell=with_comm_reduced_history seed=101
+[2026-04-17 04:57:06] [seed done] cell=with_comm_reduced_history seed=303
+[2026-04-17 04:58:47] [seed done] cell=with_comm_reduced_history seed=606
+[2026-04-17 05:10:40] [seed done] cell=with_comm_reduced_history seed=202
+[2026-04-17 05:37:29] [seed done] cell=with_comm_reduced_history seed=1313
+[2026-04-17 05:38:22] [seed done] cell=with_comm_reduced_history seed=1111
+[2026-04-17 05:47:30] [seed done] cell=with_comm_reduced_history seed=808
+[2026-04-17 05:57:35] [seed done] cell=with_comm_reduced_history seed=1212
+[2026-04-17 05:59:05] [seed done] cell=with_comm_reduced_history seed=1515
+[2026-04-17 06:01:45] [seed done] cell=with_comm_reduced_history seed=1616
+[2026-04-17 06:04:00] [seed done] cell=with_comm_reduced_history seed=707
+[2026-04-17 06:06:59] [seed done] cell=with_comm_reduced_history seed=1414
+[2026-04-17 06:12:53] [seed done] cell=with_comm_reduced_history seed=404
+[2026-04-17 06:12:55] [seed done] cell=with_comm_reduced_history seed=505
+[2026-04-17 06:12:55] [train batch done] cell=with_comm_reduced_history status=ok

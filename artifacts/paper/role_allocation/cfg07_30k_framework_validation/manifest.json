@@ -1,0 +1,79 @@
+{
+  "bundle": "role_allocation/cfg07_30k_framework_validation",
+  "description": "Compact artifacts for the hidden-need role-allocation second paradigm.",
+  "source_run": "informant-executor-cfg07-30k-framework-validation-20260424",
+  "source_repo_commit": "95711a64497620e3615cc503e186766794a35efe",
+  "source_repo_dirty_at_extraction": true,
+  "source_files": [
+    "outputs/eval/cfg07_30k_all_six_checkpoint_eval200/checkpoint_eval_summary.csv",
+    "outputs/eval/cfg07_30k_learned_best_final_interventions_eval200/checkpoint_eval_summary.csv",
+    "outputs/analysis/cfg07_30k_cross_play_final/cross_play_mode_summary.csv",
+    "outputs/analysis/cfg07_30k_cross_play_final/cross_play_summary.csv",
+    "outputs/analysis/cfg07_30k_message_semantics/message_semantics_over_time.csv",
+    "outputs/analysis/cfg07_30k_receiver_influence_best_final/receiver_influence_effect_summary.csv",
+    "docs/figures/role_allocation_results_dashboard.png",
+    "docs/figures/role_allocation_paradigm_diagram.pdf"
+  ],
+  "derived_files": [
+    {
+      "path": "data/convention_fragmentation_counts.csv",
+      "bytes": 285,
+      "sha256": "7b3ed72bf7947ac6ad3ce0a4962fa913a771ff02269079b6cb9fa41bc0a10105"
+    },
+    {
+      "path": "data/cross_play_mode_summary.csv",
+      "bytes": 911,
+      "sha256": "7eab5b70d02eb687a7408fad8fde22cfec8dc6517de795d457319bba79d83ba4"
+    },
+    {
+      "path": "data/final_condition_by_seed.csv",
+      "bytes": 13043,
+      "sha256": "96247e272b6f02f40e3dbeceee2b4c0c2236b158ef51c7d28d932bc02f6a35c3"
+    },
+    {
+      "path": "data/final_condition_summary.csv",
+      "bytes": 3158,
+      "sha256": "c55c7455626c62d159d00494592908a0d0adab819e0de88f69c65f1ff0eec4bf"
+    },
+    {
+      "path": "data/learned_endpoint_intervention_summary.csv",
+      "bytes": 1386,
+      "sha256": "e241bad0c092f4953a83e12e8e819f68caf74c130148cf2edc51558fbabf985e"
+    },
+    {
+      "path": "data/learned_endpoint_interventions_by_seed.csv",
+      "bytes": 15920,
+      "sha256": "dfe2c28bca852d0b8e2abb91c7aeba114091863055a85c99dfd263fd2fce0ec7"
+    },
+    {
+      "path": "data/message_semantics_final_by_seed.csv",
+      "bytes": 2764,
+      "sha256": "69be7eaedf9a6b83ca1262e09a2b5e6ba53f9d89d0e090c1b0dafcaddcee1f83"
+    },
+    {
+      "path": "data/message_semantics_final_summary.csv",
+      "bytes": 1414,
+      "sha256": "873cc81f8613f717608a0f851135ebc2164d1e8692c5ffdea99dd48982b837dd"
+    },
+    {
+      "path": "data/posthoc_symbol_mapping_counts.csv",
+      "bytes": 249,
+      "sha256": "6a264cbcc2a1ae70bfded1129300c714e39ee200dce82b316a2e0325ce9117ed"
+    },
+    {
+      "path": "data/receiver_influence_role_pair_summary.csv",
+      "bytes": 684,
+      "sha256": "5023fb6736a2e084a5521d91b69df7d4ac1d214762cd6cf544289b4a4c90ab15"
+    },
+    {
+      "path": "figures/role_allocation_results_dashboard.png",
+      "bytes": 92874,
+      "sha256": "dc9ef0b341cd9949f81c932595936506c6edc39c6dffe30846dbc7d9bd2a8de9"
+    },
+    {
+      "path": "figures/role_allocation_paradigm_diagram.pdf",
+      "bytes": 531827,
+      "sha256": "d7a2c4a8d44ecdd58f5d3836fe2a9ed60d9a668cbe6dbd5c1f68a37036672e38"
+    }
+  ]
+}

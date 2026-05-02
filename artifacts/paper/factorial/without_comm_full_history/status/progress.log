@@ -1,0 +1,47 @@
+[2026-03-30 20:58:17] [train batch start] cell=without_comm_full_history condition=cond2 history_mode=full max_parallel=6
+[2026-03-30 20:58:17] [launch] cell=without_comm_full_history seed=101 pid=85871
+[2026-03-30 20:58:17] [seed start] cell=without_comm_full_history seed=101 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed101.log
+[2026-03-30 20:58:17] [launch] cell=without_comm_full_history seed=202 pid=85902
+[2026-03-30 20:58:17] [seed start] cell=without_comm_full_history seed=202 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed202.log
+[2026-03-30 20:58:17] [seed start] cell=without_comm_full_history seed=303 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed303.log
+[2026-03-30 20:58:17] [launch] cell=without_comm_full_history seed=303 pid=85930
+[2026-03-30 20:58:17] [launch] cell=without_comm_full_history seed=404 pid=85963
+[2026-03-30 20:58:17] [seed start] cell=without_comm_full_history seed=404 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed404.log
+[2026-03-30 20:58:17] [seed start] cell=without_comm_full_history seed=505 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed505.log
+[2026-03-30 20:58:17] [launch] cell=without_comm_full_history seed=505 pid=85994
+[2026-03-30 20:58:17] [launch] cell=without_comm_full_history seed=606 pid=86019
+[2026-03-30 20:58:17] [seed start] cell=without_comm_full_history seed=606 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed606.log
+[2026-03-31 04:33:38] [seed done] cell=without_comm_full_history seed=606
+[2026-03-31 04:33:41] [seed start] cell=without_comm_full_history seed=707 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed707.log
+[2026-03-31 04:33:41] [launch] cell=without_comm_full_history seed=707 pid=110935
+[2026-03-31 04:34:23] [seed done] cell=without_comm_full_history seed=505
+[2026-03-31 04:34:27] [seed start] cell=without_comm_full_history seed=808 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed808.log
+[2026-03-31 04:34:27] [launch] cell=without_comm_full_history seed=808 pid=110998
+[2026-03-31 04:34:32] [seed done] cell=without_comm_full_history seed=101
+[2026-03-31 04:34:37] [seed start] cell=without_comm_full_history seed=909 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed909.log
+[2026-03-31 04:34:37] [launch] cell=without_comm_full_history seed=909 pid=111027
+[2026-03-31 04:35:33] [seed done] cell=without_comm_full_history seed=303
+[2026-03-31 04:35:37] [seed start] cell=without_comm_full_history seed=1111 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed1111.log
+[2026-03-31 04:35:37] [launch] cell=without_comm_full_history seed=1111 pid=111107
+[2026-03-31 04:39:19] [seed done] cell=without_comm_full_history seed=404
+[2026-03-31 04:39:22] [launch] cell=without_comm_full_history seed=1212 pid=111435
+[2026-03-31 04:39:22] [seed start] cell=without_comm_full_history seed=1212 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed1212.log
+[2026-03-31 04:39:36] [seed done] cell=without_comm_full_history seed=202
+[2026-03-31 04:39:37] [launch] cell=without_comm_full_history seed=1313 pid=111472
+[2026-03-31 04:39:37] [seed start] cell=without_comm_full_history seed=1313 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed1313.log
+[2026-03-31 12:12:16] [seed done] cell=without_comm_full_history seed=909
+[2026-03-31 12:12:16] [seed start] cell=without_comm_full_history seed=1414 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed1414.log
+[2026-03-31 12:12:16] [launch] cell=without_comm_full_history seed=1414 pid=138505
+[2026-03-31 12:12:41] [seed done] cell=without_comm_full_history seed=707
+[2026-03-31 12:12:41] [seed start] cell=without_comm_full_history seed=1515 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed1515.log
+[2026-03-31 12:12:41] [launch] cell=without_comm_full_history seed=1515 pid=138548
+[2026-03-31 12:13:27] [seed done] cell=without_comm_full_history seed=1111
+[2026-03-31 12:13:31] [launch] cell=without_comm_full_history seed=1616 pid=138613
+[2026-03-31 12:13:31] [seed start] cell=without_comm_full_history seed=1616 log=<REMOTE_PROJECT_ROOT>/outputs/train/phase3_vecstraight_comm_history_factorial_without_comm_full_history_15seeds_hetzner_20260330par24/train/logs/cond2_seed1616.log
+[2026-03-31 12:19:32] [seed done] cell=without_comm_full_history seed=808
+[2026-03-31 12:20:20] [seed done] cell=without_comm_full_history seed=1313
+[2026-03-31 12:24:22] [seed done] cell=without_comm_full_history seed=1212
+[2026-03-31 18:31:59] [seed done] cell=without_comm_full_history seed=1414
+[2026-03-31 18:33:38] [seed done] cell=without_comm_full_history seed=1515
+[2026-03-31 18:36:02] [seed done] cell=without_comm_full_history seed=1616
+[2026-03-31 18:36:02] [train batch done] cell=without_comm_full_history status=ok

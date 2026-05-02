@@ -1,0 +1,1 @@
+{"condition": "cond1", "episode": 150000, "key": "all_agents", "metric": "responsiveness_kl", "n_pairs": 160000, "scope": "comm", "seed": 606, "value": 0.42420019081686533, "value_std": 1.501281986913843, "window": "window"}
