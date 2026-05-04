@@ -201,7 +201,7 @@ def make_scatter(
     ax.text(
         threshold + axis_limit * 0.015,
         axis_limit * 0.965,
-        "10 pp reference only\nnot a classification threshold",
+        f"{threshold:g} pp visual reference",
         ha="left",
         va="top",
         fontsize=6.5,

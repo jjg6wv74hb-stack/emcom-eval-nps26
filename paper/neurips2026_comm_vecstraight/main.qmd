@@ -21,7 +21,7 @@ header-includes:
   - \setcounter{secnumdepth}{3}
   - \AtBeginDocument{\captionsetup[subtable]{labelformat=empty}\captionsetup[subfigure]{labelformat=empty}}
 abstract: |
-  Communication channels in multi-agent reinforcement learning are often evaluated by whether they improve reward, but a reward gain alone does not identify what the channel contributes. It may reflect task-relevant message content, receiver sensitivity to arbitrary inputs, partner-specific conventions, or training-time scaffolding that no longer depends on the learned messages. We propose an evaluation framework that decomposes emergent-communication claims into four properties: sender encoding, content attribution, receiver influence, and cross-population portability. The framework turns a single performance comparison into a diagnostic profile of what messages encode, what receivers use, what explains performance, and what transfers to new partners. We develop the framework through a detailed regime-switching public-goods case study. There, learned messages encode task variables and causally affect receivers, yet the main cooperation gain is better explained by sender-labeled channel structure than by portable learned content. We then use a smaller hidden-need role-allocation probe as a contrast: in that setting, learned content explains performance, but conventions still fail to transfer. Together, the case study and probe show that reward gains, encoding, receiver influence, content attribution, and portability are separable. The contribution is an evaluation logic and experiment family for making claims about emergent communication precise.
+  Communication channels in multi-agent reinforcement learning are often evaluated by whether they improve reward, but a reward gain alone does not identify what the channel contributes. It may reflect task-relevant message content, receiver sensitivity to arbitrary inputs, partner-specific conventions, or training-time scaffolding that no longer depends on the learned messages. We propose an evaluation framework that decomposes emergent-communication claims into four properties: sender encoding, content attribution, receiver influence, and cross-population portability. We develop the framework through a detailed regime-switching public-goods case study. There, learned messages encode task variables and causally affect receivers, yet the main cooperation gain is better explained by sender-indexed channel structure than by portable learned content. We then use a smaller hidden-need role-allocation probe as a contrast: in that setting, learned content materially supports endpoint performance, but conventions still fail to transfer. Together, the case study and probe show how these properties can come apart in ways that change the interpretation of an emergent channel. The contribution is a setting-agnostic evaluation framework with a concrete experiment family for each of the four properties, replacing a single reward-or-correlation verdict with an evidence profile over encoding, attribution, influence, and portability.
 keywords:
   - emergent communication
   - multi-agent reinforcement learning
@@ -269,6 +269,25 @@ def role_allocation_cell(table, metric, places=2, **kwargs):
     return math_text(f"{fmt_num(mean, places)} \\pm {fmt_num(sem, places)}")
 
 
+def role_allocation_receiver_effect(sender_role, receiver_role, stat="mean"):
+    row = role_allocation_row(
+        "receiver_influence_role_pair_summary",
+        sender_role=sender_role,
+        receiver_role=receiver_role,
+    )
+    return float(row[f"effect_range_{stat}"])
+
+
+def role_allocation_max_ineligible_receiver_effect():
+    rows = ROLE_ALLOCATION_TABLES["receiver_influence_role_pair_summary"]
+    values = [
+        abs(float(row["effect_range_mean"]))
+        for row in rows
+        if row["receiver_role"] in {"informed", "neither"}
+    ]
+    return max(values) if values else float("nan")
+
+
 def role_allocation_rate_cell(table, metric, places=1, **kwargs):
     mean = role_allocation_metric(table, metric, "mean", **kwargs)
     sem = role_allocation_sem(table, metric, **kwargs)
@@ -349,7 +368,7 @@ def gap_value(f_value, checkpoint_episode, field):
 
 
 # --- Frozen endpoint data ---
-# Tier 1 zero-aux endpoint bundle: canonical source for the frozen endpoint,
+# Tier 1 endpoint bundle: canonical source for the frozen endpoint,
 # sender-causal, and aggregate-cancellation analyses. Do not point these
 # sections back at the March aux-loss endpoint family.
 ZEROAUX_ENDPOINT_FROZEN_50_ROOT = ARTIFACTS["endpoint_frozen50k"]
@@ -1392,9 +1411,9 @@ def render_role_allocation_cross_play_table():
     lines = [
         r"\centering",
         r"\small",
-        r"\begin{tabular}{lc}",
+        r"\begin{tabular}{lcc}",
         r"  \toprule",
-        r"  Transfer mode & Welfare \\",
+        r"  Transfer mode & Mean welfare & $n$ \\",
         r"  \midrule",
     ]
     for mode, label in rows:
@@ -1402,12 +1421,18 @@ def render_role_allocation_cross_play_table():
             "  "
             + label
             + " & "
-            + role_allocation_cell(
-                "cross_play_mode_summary",
-                "eval_mean_welfare",
-                places=2,
-                mode=mode,
+            + math_text(
+                fmt_num(
+                    role_allocation_metric(
+                        "cross_play_mode_summary",
+                        "eval_mean_welfare",
+                        mode=mode,
+                    ),
+                    2,
+                )
             )
+            + " & "
+            + str(role_allocation_count("cross_play_mode_summary", mode=mode))
             + r" \\"
         )
     lines.extend([r"  \bottomrule", r"\end{tabular}"])
@@ -1439,6 +1464,18 @@ def render_role_allocation_semantics_table():
         + pp_pm_math(
             semantics["capable_vol_delta_decoded_need1_minus_0_mean"],
             semantics["capable_vol_delta_decoded_need1_minus_0_se"],
+        )
+        + r" \\",
+        r"  Forced-symbol range, informed $\rightarrow$ capable & "
+        + pp_pm_math(
+            role_allocation_receiver_effect("informed", "capable", "mean"),
+            role_allocation_receiver_effect("informed", "capable", "se"),
+        )
+        + r" \\",
+        r"  Forced-symbol range, capable $\rightarrow$ capable & "
+        + pp_pm_math(
+            role_allocation_receiver_effect("capable", "capable", "mean"),
+            role_allocation_receiver_effect("capable", "capable", "se"),
         )
         + r" \\",
         r"  Capable action-message MI & "
@@ -1486,27 +1523,38 @@ def render_noise_table():
     lines = [
         r"\centering",
         r"\small",
-        r"\begin{tabular}{lcccc}",
+        r"\begin{tabular}{llcccc}",
         r"  \toprule",
-        r"  & \multicolumn{4}{c}{Evaluation $\sigma$} \\",
-        r"  \cmidrule(lr){2-5}",
-        r"  Condition ($f=5.0$) & 0.0 & 0.25 & 0.5 & 1.0 \\",
+        r"  & & \multicolumn{4}{c}{Evaluation $\sigma$} \\",
+        r"  \cmidrule(lr){3-6}",
+        r"  Multiplier & Condition & 0.0 & 0.25 & 0.5 & 1.0 \\",
         r"  \midrule",
     ]
 
-    comm_cells = []
-    nocomm_cells = []
-    gap_cells = []
-    for sigma_label in ["0.0", "0.25", "0.5", "1.0"]:
-        c = NOISE_RESULTS.get((sigma_label, "5.000", "none", "cond1"), float("nan"))
-        n = NOISE_RESULTS.get((sigma_label, "5.000", "baseline_none", "cond2"), float("nan"))
-        comm_cells.append(fmt_rate(c))
-        nocomm_cells.append(fmt_rate(n))
-        gap_cells.append(math_text(fmt_pp(c - n)) if not (math.isnan(c) or math.isnan(n)) else "---")
+    for idx, (f_key, f_label) in enumerate([("3.500", r"$f=3.5$"), ("5.000", r"$f=5.0$")]):
+        comm_cells = []
+        nocomm_cells = []
+        gap_cells = []
+        for sigma_label in ["0.0", "0.25", "0.5", "1.0"]:
+            c = NOISE_RESULTS.get((sigma_label, f_key, "none", "cond1"), float("nan"))
+            n = NOISE_RESULTS.get((sigma_label, f_key, "baseline_none", "cond2"), float("nan"))
+            comm_cells.append(fmt_rate(c))
+            nocomm_cells.append(fmt_rate(n))
+            gap_cells.append(
+                math_text(fmt_pp(c - n)) if not (math.isnan(c) or math.isnan(n)) else "---"
+            )
 
-    lines.append(r"  \texttt{comm} & " + " & ".join(comm_cells) + r" \\")
-    lines.append(r"  \texttt{no-comm} & " + " & ".join(nocomm_cells) + r" \\")
-    lines.append(r"  Comm gap & " + " & ".join(gap_cells) + r" \\")
+        lines.append(
+            r"  \multirow{3}{*}{"
+            + f_label
+            + r"} & \texttt{comm} & "
+            + " & ".join(comm_cells)
+            + r" \\"
+        )
+        lines.append(r"  & \texttt{no-comm} & " + " & ".join(nocomm_cells) + r" \\")
+        lines.append(r"  & Comm gap & " + " & ".join(gap_cells) + r" \\")
+        if idx == 0:
+            lines.append(r"  \midrule")
     lines.extend([r"  \bottomrule", r"\end{tabular}"])
     return "\n".join(lines)
 
@@ -2047,7 +2095,7 @@ def render_clean_msgsource_table():
             cells.extend([coop, delta, p_val])
         lines.append(f"  \\texttt{{{label}}} & " + " & ".join(cells) + r" \\")
     lines.append(r"  \midrule")
-    # Canonical no-comm baseline with temporal features used throughout the zero-aux manuscript path.
+    # Canonical no-comm baseline with temporal features used throughout the manuscript path.
     lines.append(
         r"  \texttt{no-comm} & "
         + math_text(fmt_pct_pm(gap_value("3.500", "150000", "new_cond2_mean"), gap_value("3.500", "150000", "new_cond2_sem")))
@@ -2222,7 +2270,7 @@ $$
 
 The regime factor $f_t$ takes values in $\mathcal{F} = \{0.5, 1.5, 2.5, 3.5, 5.0\}$ and switches with probability $\rho = 0.05$ per round. Each agent's chosen action is independently flipped to the opposite action with probability $\tau_{\mathrm{tr}} = 0.05$ (tremble noise, distinct from the observation noise $\varepsilon_{i,t}$), so agents cannot rely on perfectly deterministic play.
 
-The per-contributor return on a unit contributed is $f/N$; cooperation thus pays at the individual level exactly when $f > N = 4$. When $f < N$, defection is individually rational. We focus on two regimes. At $f=3.5$, just below the threshold, cooperation is collectively better but individually costly---the regime where communication is most likely to tip behavior. At $f=5.0$, cooperation is individually payoff-dominant conditional on knowing the true regime. Because agents observe only noisy private signals and the regime changes over time, communication may still help aggregate evidence about the current regime; however, benefits at $f=5.0$ cannot be explained solely by resolving the near-threshold incentive conflict present at $f=3.5$.
+The per-contributor return on a unit contributed is $f/N$; cooperation thus pays at the individual level exactly when $f > N = 4$. When $f < N$, defection is individually rational. We focus on two regimes. At $f=3.5$, just below the threshold, cooperation is collectively better but individually costly---the regime where communication is most likely to tip behavior. At $f=5.0$, cooperation is individually payoff-dominant conditional on knowing the true regime. Because agents observe only noisy private signals and the regime changes over time, communication may still help aggregate evidence about the current regime; however, benefits at $f=5.0$ cannot be explained solely by resolving the near-threshold incentive conflict present at $f=3.5$. An evaluation-time observation-noise sweep tests this dependence on private-signal quality as an endpoint sensitivity check (Appendix \ref{app:noise}).
 
 These design choices help separate competing explanations. The noisy hidden regime gives agents private information that messages could transmit. The two focal regimes separate the near-threshold case from the high-regime case where cooperation already pays. The four-agent binary channel separates one shared random bit from four independent sender bits. Because the logs include the regime, sender identity, messages, intended actions, and executed actions, the evaluations can compare the relevant quantities directly instead of inferring them indirectly.
 
@@ -2993,9 +3041,9 @@ print(
 
 ## Role-allocation probe: useful content still need not transfer {#sec-role-allocation-probe}
 
-The EPGG result leaves a natural concern: if learned message content explains little of the main cooperation gain, then poor transfer might simply reflect weak content dependence. To test whether the framework distinguishes this case from genuinely content-bearing communication, we apply the same evaluation logic to a structurally different hidden-need role-allocation task, with the full setup and results in Appendix \ref{app:roleallocation} (Figure \ref{fig-role-allocation-dashboard}; Tables \ref{tbl-role-allocation-endpoint} and \ref{tbl-role-allocation-cross-play}). One informed but ineligible agent observes a low-noise need signal and sends a three-symbol message; two capable agents must decide whether to volunteer at known cost. Random or fixed messages cannot condition volunteering on the hidden need state.
+The EPGG result leaves a natural concern: if learned message content explains little of the main cooperation gain, then poor transfer might simply reflect weak content dependence. To test whether the framework distinguishes this case from genuinely content-bearing communication, we apply the same evaluation logic to a structurally different hidden-need role-allocation task, with the full setup and results in Appendix \ref{app:roleallocation}. One informed but ineligible agent observes a low-noise need signal and sends a three-symbol message; two capable agents must decide whether to volunteer at known cost. Random or fixed messages cannot condition volunteering on the hidden need state.
 
-Here the diagnostic profile changes. Learned messages carry need information, capable agents volunteer more when decoded need is present, and learned-channel performance drops when messages are shuffled, permuted across sender slots, or replaced with random messages. Content attribution therefore passes: unlike in EPGG, learned message content is useful at endpoint and the exogenous message controls do not reproduce learned-channel performance. Portability nevertheless fails. Receivers use messages from independently trained senders less effectively than messages from their co-trained partners, and even post hoc symbol remapping does not recover same-seed performance. The role-allocation probe therefore gives the complementary profile to EPGG: useful learned content can emerge without producing a transferable convention.
+Here the diagnostic profile changes. Learned messages carry need information and capable agents volunteer more when decoded need is present (Table \ref{tbl-role-allocation-semantics}). Learned-channel performance drops when messages are shuffled, permuted across sender slots, or replaced with random messages (Figure \ref{fig-role-allocation-dashboard}B; Table \ref{tbl-role-allocation-endpoint}). Content attribution therefore passes: unlike in EPGG, learned message content is useful at endpoint and the exogenous message controls do not reproduce learned-channel performance (Table \ref{tbl-role-allocation-conditions}). Portability nevertheless fails. Receivers use messages from independently trained senders less effectively than messages from their co-trained partners, and even post hoc symbol remapping does not recover same-seed performance (Figure \ref{fig-role-allocation-dashboard}C; Table \ref{tbl-role-allocation-cross-play}). The role-allocation probe therefore gives the complementary profile to EPGG: useful learned content can emerge without producing a transferable convention.
 
 # Discussion {#sec-discussion}
 
@@ -3030,7 +3078,7 @@ The broader implication of the framework is not that emergent messages are meani
 
 # Environment and policy schematic {#app:schematic}
 
-Figure \ref{fig-schematic-setup} summarizes the environment timing and the communication-enabled policy input flow. Panel A shows the per-round sequence: agents receive noisy private regime signals, simultaneously broadcast messages, choose actions, and then receive payoffs from the shared pool. Panel B separates the two within-round policy inputs: the sender head uses the non-message state and previous-round messages before broadcast, while the action and value heads use the same non-message state plus the current-round message vector after broadcast.
+Figure \ref{fig-schematic-setup} shows the per-round timing (Panel A) and the per-head input flow (Panel B); details are in the caption.
 
 ```{python}
 #| echo: false
@@ -3038,7 +3086,7 @@ Figure \ref{fig-schematic-setup} summarizes the environment timing and the commu
 print(
     render_figure_here(
         "fig-schematic-setup",
-        r"Schematic of the environment and policy input timing. A: four-agent extended public goods game with hidden regime switching, noisy private regime signals, simultaneous binary messages, actions, and split rewards. B: within-round input flow for a communication-enabled agent. The sender head $\psi$ uses non-message inputs plus previous-round messages to emit $m_{i,t}$; after simultaneous broadcast, the action and value heads use the same non-message inputs plus the current message vector $m_{\cdot,t}$. Agent inputs exclude reward, true $f_t$, and own welfare.",
+        r"Schematic of the environment and policy input timing. A: four-agent extended public goods game with hidden regime switching, noisy private regime signals, simultaneous binary messages, actions, and split rewards. B: within-round input flow for a communication-enabled agent. The sender head $\psi$ runs before the broadcast and conditions on the previous-round message vector $m_{\cdot,t-1}$ plus the base non-message state (private signal, endowment, and lagged temporal features). After the simultaneous broadcast, the action and value heads condition on the current message vector $m_{\cdot,t}$ plus the same base non-message state. Agent inputs exclude reward, true $f_t$, and own welfare.",
         MANUSCRIPT_ROOT / "figures" / "schematic_setup.pdf",
         width=r"0.82\linewidth",
         position="H",
@@ -3048,7 +3096,7 @@ print(
 
 # Architecture and training objective {#app:objective}
 
-This appendix states the policy architecture and PPO objective. We separate three implementation facts: what every policy observes, how learned messages enter the PPO update, and which architectural differences remain between learned and externally generated message-source controls.
+This appendix specifies the policy architecture and PPO objective, focusing on which asymmetries between the learned-message arm and exogenous-source controls remain after matching the receiver interface.
 
 ## Observation and network architecture
 
@@ -3075,7 +3123,7 @@ x_{i,t},
 \mathrm{onehot}(m_{S,t})
 \bigr],
 $$
-where $S=4$ is the number of sender slots. The broadcast is observed by every agent, so $o^{\mathrm{act}}_{i,t}$ includes all sender slots, including agent $i$'s own slot when $i$ is a sender. The sender head runs before the current-round broadcast, so it does not observe the current message vector. It uses the base vector plus the previous-round message vector,
+where $S=4$ is the number of sender slots. The broadcast is observed by every agent, so $o^{\mathrm{act}}_{i,t}$ includes all sender slots, including agent $i$'s own slot when $i$ is a sender. The sender head runs before the current-round broadcast, with the current message vector unavailable at that point. It uses the base vector plus the previous-round message vector,
 $$
 o^{\mathrm{msg}}_{i,t}
 =
@@ -3100,7 +3148,7 @@ For learned communication, each sender has a separate message policy of the same
 $$
 \psi_i^{\mathrm{msg}}(m \mid o^{\mathrm{msg}}_{i,t}) = \mathrm{Cat}\!\bigl(\mathrm{softmax}(f^{(m)}_i(o^{\mathrm{msg}}_{i,t}))\bigr),
 $$
-with vocabulary size $|\mathcal V|=2$. Exogenous source modes work differently: when \texttt{msg\_source\_mode} is \texttt{uniform}, \texttt{public\_random}, \texttt{fixed0}, or \texttt{fixed1}, no trainable sender message actor is instantiated. Messages are generated externally and passed through the same receiver-side wrapper. The receiver interface is matched across communication-enabled modes; only the learned mode trains a sender message policy.
+with vocabulary size $|\mathcal V|=2$. The exogenous source modes (\texttt{uniform}, \texttt{public\_random}, \texttt{fixed0}, and \texttt{fixed1}) share the same receiver-side wrapper, observation tensor, and action/value-head architecture as \texttt{learned}. The only difference is that the trainable sender head $\psi_i^{\mathrm{msg}}$ is replaced by an external message generator: an independent coin per sender slot, one shared coin, constant 0, or constant 1.
 
 ## Returns and PPO objective
 
@@ -3141,7 +3189,7 @@ r^{(a)}_{i,t} A_{i,t},
 \Bigr].
 $$
 
-For learned senders, the message decision is updated jointly with the action decision. The message $m_{i,t}$ is sampled before the current broadcast, while the action $a_{i,t}$ is sampled after the delivered message vector has been appended to $o^{\mathrm{act}}_{i,t}$. The joint rollout probability therefore factorizes as $\psi_i^{\mathrm{msg}}(m_{i,t}\mid o^{\mathrm{msg}}_{i,t})\,\pi_i(a_{i,t}\mid o^{\mathrm{act}}_{i,t})$. On timesteps where sender $i$ emits $m_{i,t}$, the implementation forms the joint ratio
+For learned senders, the message decision is updated jointly with the action decision. The message $m_{i,t}$ is sampled before the current broadcast, while the action $a_{i,t}$ is sampled after the delivered message vector has been appended to $o^{\mathrm{act}}_{i,t}$. The joint rollout probability therefore factorizes as $\psi_i^{\mathrm{msg}}(m_{i,t}\mid o^{\mathrm{msg}}_{i,t})\,\pi_i(a_{i,t}\mid o^{\mathrm{act}}_{i,t})$. Because the sender and action heads of the same agent share the standardized advantage and are updated in the same minibatch, we clip their product as one joint importance ratio. On timesteps where sender $i$ emits $m_{i,t}$, the implementation forms the joint ratio
 $$
 r^{(a,m)}_{i,t}
 =
@@ -3164,16 +3212,7 @@ r^{(a,m)}_{i,t} A_{i,t},
 \bigr)
 \Bigr].
 $$
-The same standardized agent-level advantage $A_{i,t}$ is used for both the action and message factors. If a minibatch contains both sender-updated and action-only samples for the same agent, the implementation averages the two surrogates in proportion to the sample counts:
-$$
-\mathcal L^{\mathrm{policy}}_i
-=
-\frac{n_i^{\mathrm{joint}}}{n_i^{\mathrm{joint}} + n_i^{\mathrm{act}}}
-\mathcal L^{\mathrm{joint}}_i
-+
-\frac{n_i^{\mathrm{act}}}{n_i^{\mathrm{joint}} + n_i^{\mathrm{act}}}
-\mathcal L^{\mathrm{act}}_i.
-$$
+The same standardized agent-level advantage $A_{i,t}$ is used for both the action and message factors. Timesteps outside learned-message sending use the action-only surrogate; when both sample types appear in a minibatch, the implementation averages their PPO losses over samples so that each rollout step contributes once.
 In exogenous source-mode controls and in \texttt{no-comm}, the joint message term is absent because no trainable message actor exists.
 
 The value loss is mean squared error,
@@ -3206,7 +3245,7 @@ where $c_v=0.5$, $\mathcal L^{\mathrm{policy}}_i$ is $\mathcal L^{\mathrm{act}}_
 
 ## Remaining asymmetries across conditions
 
-The objective contains no communication-specific auxiliary shaping, but the arms are still not identical optimization problems. Communication adds received-message inputs; learned communication adds a trainable sender head. Exogenous modes match the receiver interface but replace the sender policy with externally generated messages. Message-source controls therefore test which channel properties suffice under our training design, not whether parameterizations are identical.
+The learned and exogenous arms differ in two specific ways: learned communication adds a trainable sender head and a message-entropy term. The objective otherwise contains no communication-specific auxiliary shaping. The message-source comparison is therefore scoped to which channel properties suffice under this training design.
 
 ```{=latex}
 \clearpage
@@ -3217,14 +3256,14 @@ The objective contains no communication-specific auxiliary shaping, but the arms
 ```{=latex}
 \begin{center}
 \captionsetup{type=table}
-\captionof{table}{Evidence guide: how each experiment family contributes to the overall argument. Each family tests a different aspect of message dependence and has characteristic limitations; we use them as complementary evidence rather than interchangeable tests.}
+\captionof{table}{Evidence guide: how each experiment family contributes to the overall argument. Each family tests a different aspect of message dependence and has characteristic limitations; we use them as complementary evidence.}
 \small
 \begin{tabular}{p{3.0cm}p{5.0cm}p{5.0cm}}
   \toprule
   Family & What it tests & What it cannot identify \\
   \midrule
   Base checkpoint suites & Descriptive gap between separately trained comm and no-comm policies & Whether the gap is caused by messages vs.\ broader training-path differences \\
-  Direct from-scratch message-source controls & Whether learned senders outperform matched exogenous source types under a matched receiver-side training design & Which aspect of per-sender variation drives the effect: cross-slot independence, marginal entropy, or interaction with temporal context \\
+  Direct from-scratch message-source controls & Whether learned senders outperform matched exogenous source types under a matched receiver-side training design & Which property of the stronger exogenous streams is active: independent sender slots, token rate, or interaction with temporal context \\
   Comm $\times$ temporal features & Whether communication's training-time benefit requires temporal observation features & Which specific features mediate the interaction \\
   Frozen-policy interventions & Online dependence of a fixed policy on its message input & Training-time value of the communication channel \\
   Single-slot sender probes & Input sensitivity of a frozen policy to one sender's token & Full equilibrium effects of a sender choosing a message \\
@@ -3234,11 +3273,13 @@ The objective contains no communication-specific auxiliary shaping, but the arms
 \end{center}
 ```
 
+In the message-source-control row, independent sender slots means each sender slot is drawn independently of the others; token rate means the overall frequency of token 1; temporal-feature interaction means the channel's effect may depend on lagged features such as EWMA.
+
 ## Aggregate cancellation and polarity alignment {#app:aggregate-cancellation}
 
-The main-text interventions are causal endpoint tests. This appendix adds descriptive evidence: pooled receiver- and sender-semantics summaries can look weak even when sender-conditioned structure is strong.
+This appendix documents aggregate cancellation: pooled receiver- and sender-token statistics can look near zero even when sender-conditioned effects are large, because per-sender effects of opposite sign cancel under pooling. The diagnostics below quantify the cancellation and trace it to within-population polarity disagreement.
 
-These summaries are observational. They condition on message value or sender identity under the policy's natural rollout, so they describe endpoint structure and convention fragmentation but cannot identify what a forced intervention would do.
+These summaries are observational. They condition on message value or sender identity under the policy's natural rollout, so they describe endpoint structure and convention fragmentation; forced-intervention effects require the separate intervention tests.
 
 For the diagnostics below, we compare the aggregate received-token effect for receiver $j$,
 $$
@@ -3259,7 +3300,9 @@ $$
   \Delta_{\mathrm{high-low}} =
   P(m_i=1 \mid \fhat \ge 4.5) - P(m_i=1 \mid \fhat < 1.5),
 $$
-These extreme private-signal bins summarize coarse polarity and are not intended as pure true-regime labels. We then ask whether different senders share the same sign or split into opposite polarities.
+These extreme private-signal bins summarize coarse private-signal polarity. We then ask whether different senders share the same sign or split into opposite polarities.
+
+The $\fhat$-bin averages in Table \ref{tbl-alignment} differ from the true-regime-conditioned any-token effects in Section \ref{sec-sender-probes}; here they serve as descriptive private-signal-bin summaries for the cancellation diagnostic.
 
 ```{python}
 #| echo: false
@@ -3267,7 +3310,7 @@ These extreme private-signal bins summarize coarse polarity and are not intended
 print(
     render_table_here(
         "tbl-alignment",
-        r"Aggregate cancellation explains why pooled token statistics understate message dependence. Aggregate received-token effects average $P(C_j \mid \exists\, k \ne j: m_k=1,\fhat_{\mathrm{bin}}) - P(C_j \mid \forall\, k \ne j: m_k=0,\fhat_{\mathrm{bin}})$ over private-signal bins; per-sender effects average $|P(C_j \mid m_i=1,\fhat_{\mathrm{bin}}) - P(C_j \mid m_i=0,\fhat_{\mathrm{bin}})|$ over non-self sender--receiver pairs and bins (skipping incomplete sender-token pairs). These $\fhat$-bin averages differ from the true-regime-conditioned any-token effects in Section \ref{sec-sender-probes}. Ratios are computed from unrounded values. Regime-sign alignment is the mean pairwise product of sender polarity signs, where polarity is $P(m_i=1 \mid \fhat \ge 4.5) - P(m_i=1 \mid \fhat < 1.5)$; values near $0$ indicate mixed sender polarities. Mean $\pm$ SEM over 15 seeds.",
+        r"Aggregate cancellation diagnostics. \emph{Aggregate effect}: average $P(C_j \mid \exists\, k \ne j: m_k=1,\fhat_{\mathrm{bin}}) - P(C_j \mid \forall\, k \ne j: m_k=0,\fhat_{\mathrm{bin}})$ over private-signal bins. \emph{Per-sender effect}: average $|P(C_j \mid m_i=1,\fhat_{\mathrm{bin}}) - P(C_j \mid m_i=0,\fhat_{\mathrm{bin}})|$ over non-self sender--receiver pairs and bins, skipping incomplete sender-token pairs. \emph{Polarity}: mean pairwise product of sender signs, where each sign comes from $P(m_i=1 \mid \fhat \ge 4.5) - P(m_i=1 \mid \fhat < 1.5)$; values near $0$ indicate mixed sender polarities. Ratios are computed from unrounded values. Mean $\pm$ SEM over 15 seeds.",
         render_alignment_table(),
     )
 )
@@ -3286,15 +3329,15 @@ print(
 #| echo: false
 #| output: asis
 print(
-    f"Sender polarity diagnostics show why the cancellation persists (Figure \\ref{{fig-alignment}}, Panel B). The mean regime-sign alignment index is only {math_text(fmt_num(semantics_value('50000', 'alignment_regime_mean'), 2))} at 50k and {math_text(fmt_num(semantics_value('150000', 'alignment_regime_mean'), 2))} at 150k, while mixed-polarity seeds account for {int(semantics_value('50000', 'mixed_regime_seed_count'))}/{int(semantics_value('50000', 'n_seeds'))} and {int(semantics_value('150000', 'mixed_regime_seed_count'))}/{int(semantics_value('150000', 'n_seeds'))} seeds respectively. Even at 150k, the mean absolute sender polarity remains {abs_pp_pm_math(semantics_value('150000', 'mean_abs_regime_delta'), semantics_value('150000', 'mean_abs_regime_delta_sem'))}. Different senders within the same trained population often disagree on what token 1 signals: sender-indexed dialects, not one shared sign convention."
+    f"Sender polarity diagnostics show why the cancellation persists (Figure \\ref{{fig-alignment}}, Panel B). The mean regime-sign alignment index is only {math_text(fmt_num(semantics_value('50000', 'alignment_regime_mean'), 2))} at 50k and {math_text(fmt_num(semantics_value('150000', 'alignment_regime_mean'), 2))} at 150k, while mixed-polarity seeds account for {int(semantics_value('50000', 'mixed_regime_seed_count'))}/{int(semantics_value('50000', 'n_seeds'))} and {int(semantics_value('150000', 'mixed_regime_seed_count'))}/{int(semantics_value('150000', 'n_seeds'))} seeds respectively. Even at 150k, the mean absolute sender polarity remains {abs_pp_pm_math(semantics_value('150000', 'mean_abs_regime_delta'), semantics_value('150000', 'mean_abs_regime_delta_sem'))}. Different senders within the same trained population often disagree on what token 1 signals, producing sender-indexed dialects."
 )
 ```
 
 ## Grouped surrogate specification {#app:lowdim-spec}
 
-Parallel to Section \ref{sec-lowdim}, this appendix asks whether sender-indexed message features generalize across independently trained populations. It is not a causal test. The target is the receiver's binary action on natural frozen traces from the learned communication policy, filtered to \texttt{cond1}, \texttt{ablation=none}, \texttt{history\_intervention=none}, and checkpoint 150k. For each focal multiplier, we subsample at most 5,000 observations per training seed; grouped 5-fold cross-validation holds out entire seeds, so each fold tests whether a mapping learned on some populations predicts behavior in unseen ones.
+Parallel to Section \ref{sec-lowdim}, this appendix asks whether sender-indexed message features generalize across independently trained populations. This is a seed-held-out predictive diagnostic. The target is the receiver's binary action on natural, unperturbed frozen traces from the learned communication policy with temporal features at checkpoint 150k. For each focal multiplier, we subsample at most 5,000 observations per training seed; grouped 5-fold cross-validation holds out entire seeds, so each fold tests whether a mapping learned on some populations predicts behavior in unseen ones.
 
-All surrogate models use the same pipeline as the analysis code: standardized numeric inputs, one-hot categorical inputs, and a \texttt{liblinear} logistic regression with \texttt{max\_iter=2000}. The models differ only in how the message stream is encoded:
+All surrogate models use the same pipeline as the analysis code: standardized numeric inputs, one-hot categorical inputs, and a \texttt{liblinear} logistic regression with \texttt{max\_iter=2000}. The rows form a ladder of message-encoding richness: no message features (\texttt{history\_only}), whether anyone signaled (\texttt{history\_any}), how many signaled (\texttt{history\_count}), which sender slots signaled (\texttt{history\_sender\_bits}), and the full received pattern indexed by receiver (\texttt{history\_pattern}). If sender-indexed conventions transferred across populations, the latter two encodings should beat the first three on held-out seeds.
 
 ```{python}
 #| echo: false
@@ -3302,13 +3345,13 @@ All surrogate models use the same pipeline as the analysis code: standardized nu
 print(
     render_table_here(
         "tbl-lowdim-spec",
-        r"Exact grouped-surrogate specification for Section \ref{sec-lowdim}. All models predict the receiver's action on natural frozen traces at 150k. Numeric columns are standardized; categorical columns are one-hot encoded. Grouped 5-fold cross-validation holds out entire training seeds. The only change across rows is the message encoding.",
+        r"Exact grouped-surrogate specification for Section \ref{sec-lowdim}. All models predict the receiver's action on natural frozen traces at 150k. Numeric columns are standardized; categorical columns are one-hot encoded. Grouped 5-fold cross-validation holds out entire training seeds. Rows differ only in message encoding.",
         render_lowdim_spec_table(),
     )
 )
 ```
 
-The full-pattern variable \texttt{pattern} is receiver-indexed: it records which specific senders delivered which bits to that receiver, so it can express sender-specific conventions. Poor held-out performance of \texttt{history\_pattern} therefore means these detailed sender-indexed mappings do not transfer across independently trained seeds, even though they matter within a seed.
+The full-pattern variable \texttt{pattern} is receiver-indexed: it records which specific senders delivered which bits to that receiver, so it can express sender-specific conventions. Poor held-out performance of \texttt{history\_pattern} therefore indicates weak transfer of these detailed sender-indexed mappings across independently trained seeds, even though they matter within a seed.
 
 ```{python}
 #| echo: false
@@ -3336,9 +3379,9 @@ print(
 )
 ```
 
-No pre-specified polarity rule recovers the post hoc advantage; the flip ceiling depends on pair-specific outcome information, not a recoverable cross-seed convention.
+The post hoc advantage is pair-specific and remains beyond the reach of these pre-specified polarity rules.
 
-This appendix reports the full cross-seed transfer tests from Section \ref{sec-lowdim}, including seedwise detail and provenance. For each receiver seed, we transplant a donor seed's learned message stream while keeping the receiver policy fixed. The matched suite uses the same evaluation seed for raw foreign identity and the global $0 \leftrightarrow 1$ flip, and reports ordered-pair and receiver-level summaries for those two streams only.
+This appendix reports the full cross-seed transfer tests from Section \ref{sec-lowdim}, including seedwise detail and provenance. For each receiver seed, we transplant a donor seed's learned message stream while keeping the receiver policy fixed. To compare raw foreign identity and the global $0 \leftrightarrow 1$ flip directly, both streams use the same evaluation seed; their difference isolates the polarity flip. We report ordered-pair means (one number per receiver--donor pair, averaged over evaluation episodes) and receiver means (donor means averaged within each receiver seed).
 
 ```{python}
 #| echo: false
@@ -3352,7 +3395,7 @@ print(
 )
 ```
 
-The post hoc flip-allowed row takes the better of two options after seeing the outcome, inflating the transfer estimate. To test whether the polarity alignment is predictable, we evaluate three simple pre-specified rules that predict noflip or flipall for each receiver--donor pair based on sender polarity diagnostics computed from natural frozen traces (not from the transfer outcomes): \texttt{seed\_mean\_sign} (sign of the seed-level mean polarity), \texttt{majority\_slot\_sign} (majority vote of per-sender polarity signs), and \texttt{weighted\_slot\_sign} (weighted by absolute polarity magnitude). The table shows \texttt{weighted\_slot\_sign}, the best of the three; all three give the same qualitative result.
+The post hoc flip-allowed row takes the better of two options after seeing the outcome, inflating the transfer estimate. To test whether the polarity alignment is predictable, we evaluate three simple pre-specified rules that predict noflip or flipall for each receiver--donor pair based on sender polarity diagnostics computed from natural frozen traces before transfer outcomes are used: \texttt{seed\_mean\_sign} (sign of the seed-level mean polarity), \texttt{majority\_slot\_sign} (majority vote of per-sender polarity signs), and \texttt{weighted\_slot\_sign} (weighted by absolute polarity magnitude). The table shows \texttt{weighted\_slot\_sign}, the best of the three; all three give the same qualitative result.
 
 ```{python}
 #| echo: false
@@ -3366,11 +3409,11 @@ print(
 )
 ```
 
-Table \ref{tbl-nonoracle-transfer} gives the detailed rule comparison. At $f=3.5$, the best rule sits barely above raw foreign transfer and the shared-random and sender-shuffle controls, well below the post hoc bound. At $f=5.0$, the rule edges past those controls but stays far below the bound. The gap reflects pair-specific selection, not a convention these rules can recover.
+Table \ref{tbl-nonoracle-transfer} gives the detailed rule comparison. At $f=3.5$, the best rule sits barely above raw foreign transfer and the shared-random and sender-shuffle controls, well below the post hoc bound. At $f=5.0$, the rule edges past those controls but stays far below the bound. The gap reflects pair-specific selection beyond what these rules recover.
 
 ## Sender-encoding decomposition {#app:sender-encoding}
 
-The traces record each sender's eventual intended action directly, so the action-linked effect uses intended cooperation/defection, not executed action. Unlike the extreme-bin polarity statistic in Appendix \ref{app:aggregate-cancellation}, the regime-linked effect here uses the task-relevant cooperation-threshold split, $\hat f < 3.5$ versus $\hat f \ge 3.5$. For the sensitivity check below, a sender-seed pair is labeled \emph{mixed} if both the regime-linked and action-linked mean absolute effects clear threshold $\tau$, \emph{regime-leaning} if only the regime effect clears it, \emph{action-leaning} if only the action effect clears it, and \emph{weak or unclear} otherwise.
+The traces record each sender's eventual intended action directly, so the action-linked effect uses intended cooperation/defection: the action the policy chose before the 5\% tremble flip from Section \ref{sec-setup}. The regime-linked effect here uses the task-relevant cooperation-threshold split, $\hat f < 3.5$ versus $\hat f \ge 3.5$; the extreme-bin polarity statistic in Appendix \ref{app:aggregate-cancellation} serves a separate cancellation diagnostic. For the sensitivity check below, a sender-seed pair is labeled \emph{mixed} if both the regime-linked and action-linked mean absolute effects clear threshold $\tau$, \emph{regime-leaning} if only the regime effect clears it, \emph{action-leaning} if only the action effect clears it, and \emph{weak or unclear} otherwise.
 
 ```{python}
 #| echo: false
@@ -3378,7 +3421,7 @@ The traces record each sender's eventual intended action directly, so the action
 print(
     render_figure_here(
         "fig-encoding-scatter",
-        r"Sender-side encoding distribution at 150k. Each point is one sender--seed pair. The $x$-axis shows the mean absolute history-adjusted regime-linked effect on the probability of emitting token 1; the $y$-axis shows the corresponding action-linked effect. Dashed lines mark 10 pp as a reference value only, not as a classification threshold.",
+        r"Sender-side encoding distribution at 150k. Each point is one sender--seed pair. The $x$-axis shows the mean absolute history-adjusted regime-linked effect on the probability of emitting token 1; the $y$-axis shows the corresponding action-linked effect. Dashed lines mark 10 pp for visual reference.",
         SENDER_ENCODING_DIST_DIR / "encoding_scatter.pdf",
         width=r"0.72\linewidth",
         position="tbp",
@@ -3392,7 +3435,7 @@ print(
 print(
     render_table_here(
         "tbl-sender-encoding",
-        r"Sender-encoding sensitivity check at $\tau=10\,\mathrm{pp}$. Each of the 60 sender-seed pairs (4 senders $\times$ 15 seeds) is classified by whether its message polarity varies mainly with coarse regime, mainly with eventual intended action, with both (mixed), or with neither (weak). Classification is based on 150k traces that record eventual intended actions.",
+        r"Sender-encoding sensitivity check at $\tau=10\,\mathrm{pp}$. Each of the 60 sender-seed pairs (4 senders $\times$ 15 seeds) is classified by whether its message polarity varies mainly with coarse regime, mainly with eventual intended action, with both (mixed), or with neither (weak). Classification is based on 150k traces that record eventual intended actions. Under the encoding hypothesis, mixed pairs are the expected headline pattern because tokens vary with both regime and intended action.",
         render_sender_encoding_table(),
     )
 )
@@ -3486,7 +3529,7 @@ plt.close(fig)
 print(
     render_figure_here(
         "fig-sender-probe-signed",
-        r"Cross-seed cancellation of signed sender-probe effects. Each heatmap cell shows the signed mean change in receiver cooperation when forcing one sender's token to 1 rather than 0, averaged across 15 seeds. Because sender polarities differ across seeds, positive and negative effects can cancel; small signed means indicate direction instability rather than absence of within-seed receiver influence. Figure \ref{fig-endpoint-panels} shows absolute effect magnitudes.",
+        r"Cross-seed cancellation of signed sender-probe effects. Each heatmap cell shows the signed mean change in receiver cooperation when forcing one sender's token to 1 rather than 0, averaged across 15 seeds. Because sender polarities differ across seeds, positive and negative effects can cancel; small signed means indicate direction instability while within-seed receiver influence can still be large. Figure \ref{fig-endpoint-panels} shows absolute effect magnitudes.",
         signed_sender_fig_path,
         width=r"0.76\linewidth",
         position="H",
@@ -3508,7 +3551,7 @@ Table \ref{tbl-endpoint-interventions} defines the test-side message streams use
 print(
     render_table_here(
         "tbl-endpoint-interventions",
-        r"Test-side message interventions used for the cross-over and the endpoint-dependence analyses. Each manipulation replaces the message stream at evaluation time and targets a distinct question about what the frozen policy relies on.",
+        r"Test-side message interventions used for the cross-over and the endpoint-dependence analyses. Each manipulation replaces the message stream at evaluation time and targets a distinct question about what the frozen policy relies on. Three groups: variable controls (\texttt{sender\_shuffle}, \texttt{permute\_slots}) preserve channel variation while disrupting learned content or sender-slot identity; random/marginal controls (\texttt{indep\_random}, \texttt{public\_random}, \texttt{marginal}, \texttt{public\_marginal}) replace learned streams with fair-coin or empirical-rate samples; constant/blank controls (\texttt{fixed0}, \texttt{fixed1}, \texttt{zeros}) remove channel variation.",
         render_endpoint_intervention_table(),
     )
 )
@@ -3532,7 +3575,7 @@ print(
 fixed_flip_delta = pp_math(crossover_delta('fixed0', 'fixed1', '3.500'))
 fixed_flip_p = fmt_p(crossover_paired_p('fixed0', 'fixed1', '3.500'), 3)
 print(
-    f"One anomaly: a policy trained under {tex_tt('fixed0')} but evaluated under {tex_tt('fixed1')} shows a large positive shift at $f=3.5$ ({fixed_flip_delta}, $p {fixed_flip_p}$). Sanity checks confirmed the correct checkpoint family and a {tex_tt('fixed1')} one-hot tensor. The pattern is consistent with the policy reading the token-1 configuration as a cooperative signal, but the data do not isolate the mechanism; we report it descriptively."
+    f"One anomaly: a policy trained under {tex_tt('fixed0')} but evaluated under {tex_tt('fixed1')} shows a large positive shift at $f=3.5$ ({fixed_flip_delta}, $p {fixed_flip_p}$). Sanity checks confirmed the correct checkpoint family and a {tex_tt('fixed1')} one-hot tensor. The pattern is consistent with the policy reading the token-1 configuration as a cooperative signal, but the data leave the mechanism unresolved. We report it descriptively: the main content-attribution comparison rests on learned-trained and uniform-trained rows, and reruns of these checkpoints should expect this asymmetry."
 )
 ```
 
@@ -3548,7 +3591,7 @@ The main text reports the communication gap and factorial interaction (Figure \r
 print(
     render_table_here(
         "tbl-factorial-appendix",
-        r"Full cell means for the communication $\times$ temporal-features factorial at 150k, supporting Panels C--D of Figure \ref{fig-training-panels}. Cooperation entries are greedy endpoint evaluations; each cell is trained from scratch with 15 seeds. The message-sensitivity rows report the logged responsiveness KL between the action distribution under natural message inputs and the same observation with each sender slot replaced by its running empirical marginal. Larger values mean the policy changes more when specific message realizations are removed. Sensitivity drops sharply when temporal features are removed, confirming that agents trained without them attend less to messages.",
+        r"Full cell means for the communication $\times$ temporal-features factorial at 150k, supporting Panels C--D of Figure \ref{fig-training-panels}. Cooperation entries are greedy endpoint evaluations; each cell is trained from scratch with 15 seeds. The bottom rows report message responsiveness, defined as $\mathrm{KL}\bigl(\pi(\cdot \mid o_{\mathrm{nat}})\,\|\,\pi(\cdot \mid o_{\mathrm{marg}})\bigr)$, where $o_{\mathrm{nat}}$ uses natural messages and $o_{\mathrm{marg}}$ replaces each sender slot with that sender's running empirical token frequency. Larger values mean the policy reacts more to specific message realizations than to the marginal rate. Sensitivity drops sharply when temporal features are removed, confirming that agents trained without them attend less to messages.",
         render_factorial_table(),
     )
 )
@@ -3604,7 +3647,7 @@ print(
 
 # Observation-noise sweep {#app:noise}
 
-The noise sweep tests whether the communication advantage changes when private signal quality varies at evaluation time. Agents were trained at $\sigma = 0.5$; we evaluate at $\sigma \in \{0.0, 0.25, 0.5, 1.0\}$. Table \ref{tbl-noise} shows the $f=5.0$ panel; the $f=3.5$ gap is also non-monotone in $\sigma$ and shaped differently.
+The noise sweep tests whether the communication advantage changes when private signal quality varies at evaluation time. Agents were trained at $\sigma = 0.5$; we evaluate at $\sigma \in \{0.0, 0.25, 0.5, 1.0\}$. Table \ref{tbl-noise} reports both focal multipliers.
 
 ```{python}
 #| echo: false
@@ -3612,17 +3655,17 @@ The noise sweep tests whether the communication advantage changes when private s
 print(
     render_table_here(
         "tbl-noise",
-        r"Communication retains a large advantage across the full evaluation-time noise sweep, and the gap is larger under the noisiest observations than under perfect information. Cooperation rates at $f=5.0$ under varying evaluation-time noise $\sigma$ (agents were trained at $\sigma=0.5$). The non-monotone middle rows show that this is an endpoint sensitivity check rather than a calibrated psychometric curve, but the larger gap at $\sigma=1.0$ than $\sigma=0$ is consistent with messages carrying regime information when private signals are unreliable.",
+        r"Communication retains a large advantage across the evaluation-time noise sweep. Cooperation rates at both focal multipliers under varying evaluation-time noise $\sigma$ (agents were trained at $\sigma=0.5$). The non-monotone gaps make this an endpoint sensitivity check.",
         render_noise_table(),
     )
 )
 ```
 
-The sweep changes observation noise only at evaluation. It is endpoint sensitivity, not evidence about how communication would develop under different training noise.
+The fixed-training design leaves training-under-noise questions open.
 
 # Matched message-source controls: seedwise details {#app:msgsource}
 
-This appendix reports seedwise details for the message-source controls used in the main text. Table \ref{tbl-clean-msgsource} contains the headline cooperation means, paired deltas, and $p$-values; Table \ref{tbl-clean-msgsource-paired} adds the seedwise sign counts and exact paired contrasts. In the communication-enabled arms, the receiver-side interface, message slots, action/value architecture, optimizer schedule, and action/value PPO objective are fixed; learned communication additionally trains a sender head. The \texttt{no-comm} row is included as a reference point for the no-communication condition with temporal features.
+The main text (Table \ref{tbl-clean-msgsource}) reports cooperation means and paired deltas for the four exogenous arms versus \texttt{learned}. This appendix adds the underlying seedwise sign counts and exact paired sign-test $p$-values. In the communication-enabled arms, the receiver-side interface, message slots, action/value architecture, optimizer schedule, and action/value PPO objective are fixed; learned communication additionally trains a sender head. Holding the receiver interface and training objective fixed ties the exogenous-mode comparison to the presence or absence of state-conditioned messages. The \texttt{no-comm} row is included as a reference point for the no-communication condition with temporal features.
 
 ```{python}
 #| echo: false
@@ -3630,7 +3673,7 @@ This appendix reports seedwise details for the message-source controls used in t
 print(
     render_table_here(
         "tbl-clean-msgsource-paired",
-        r"Paired seedwise contrasts for the clean from-scratch message-source family at 150k (15 seeds). Positive $\Delta$ means the listed mode cooperates more than the matched learned seed. +/-- reports how many seeds are above/below learned. $p$ is the two-sided exact sign test.",
+        r"Paired seedwise contrasts for the matched from-scratch message-source family at 150k (15 seeds). Positive $\Delta$ means the listed mode cooperates more than the matched learned seed. +/-- reports how many seeds are above/below learned. $p$ is the two-sided exact sign test.",
         render_clean_msgsource_paired_table(),
     )
 )
@@ -3652,15 +3695,13 @@ print(
 )
 ```
 
-### Design note {#app:msgsource-provenance}
-
-The message-source comparison is only interpretable when the receiver interface and training objective are held fixed. Changing both the message source and other training details would obscure the mechanism, so the main interpretation rests on contrasts within the matched design.
-
 # Reproducibility details {#app:repro}
 
-The reported training runs use independent PPO with 4 agents, horizon $T=100$, 8 parallel environments counted in environment episodes, two 64-unit hidden layers, learning rate $3\times 10^{-4}$, $\gamma=0.99$, $\lambda=0.95$, clip ratio $0.2$, value-loss coefficient $0.5$, max-grad-norm $0.5$, and reward scaling by 20.0. Communication runs use a binary vocabulary, 4 sender slots, message dropout 0.1, linear action-entropy annealing from 0.01 to 0.001, linear message-entropy annealing from 0.01 to 0, and no positive-signalling or listening auxiliary losses.
+**Optimization.** The reported training runs use independent PPO with 4 agents, horizon $T=100$, 8 parallel environments counted in environment episodes, two 64-unit hidden layers, learning rate $3\times 10^{-4}$, $\gamma=0.99$, $\lambda=0.95$, clip ratio $0.2$, value-loss coefficient $0.5$, max-grad-norm $0.5$, and reward scaling by 20.0. Communication runs use a binary vocabulary, 4 sender slots, message dropout 0.1, linear action-entropy annealing from 0.01 to 0.001, linear message-entropy annealing from 0.01 to 0, and no positive-signalling or listening auxiliary losses.
 
-Across experiments, the environment uses endowment 4.0, multiplier set $\{0.5, 1.5, 2.5, 3.5, 5.0\}$, private-noise standard deviations $(0.5, 0.5, 0.5, 0.5)$, regime persistence $\rho=0.05$, and tremble probability 0.05. Main claims are based on 15 training seeds per condition with checkpoints at 25k, 50k, 100k, and 150k episodes; reported evaluation summaries are greedy means over those 15 seeds unless a table or caption says otherwise. The software stack targets Python 3.10 with PyTorch 2.10.0 and PettingZoo 1.18.1.
+**EPGG environment.** The public-goods experiments use endowment 4.0, multiplier set $\{0.5, 1.5, 2.5, 3.5, 5.0\}$, private-noise standard deviations $(0.5, 0.5, 0.5, 0.5)$, regime persistence $\rho=0.05$, and tremble probability 0.05.
+
+**EPGG seeds and reporting.** The public-goods claims are based on 15 training seeds per condition with checkpoints at 25k, 50k, 100k, and 150k episodes; reported evaluation summaries are greedy means over those 15 seeds unless a table or caption says otherwise. The software stack targets Python 3.10 with PyTorch 2.10.0 and PettingZoo 1.18.1.
 
 ```{python}
 #| echo: false
@@ -3726,17 +3767,19 @@ factorial_seed_hours = [compute_stats[name]["seed_hours"] for name in factorial_
 timed_worker_hours = sum(stats["worker_hours"] for stats in compute_stats.values())
 
 print(
-    f"Approximate wall-clock from batch logs is as follows. The learned-communication arm with temporal features uses the clean zero-aux message-source run and took about {fmt_num(compute_stats['comm_full_clean_learned']['batch_hours'], 1)} h with {compute_stats['comm_full_clean_learned']['active_seed_processes']} active seed processes. The zero-aux communication arm without temporal features took about {fmt_num(compute_stats['comm_reduced_zeroaux']['batch_hours'], 1)} h with {compute_stats['comm_reduced_zeroaux']['active_seed_processes']} active seed processes. The canonical no-communication baselines with and without temporal features took {fmt_num(compute_stats['nocomm_full_canonical']['batch_hours'], 1)} h and {fmt_num(compute_stats['nocomm_reduced_canonical']['batch_hours'], 1)} h, respectively, with {compute_stats['nocomm_full_canonical']['active_seed_processes']} active seed processes. The matched message-source controls used 15 active seed processes; 15-seed training batches took {fmt_num(min(clean_batch_hours), 1)}--{fmt_num(max(clean_batch_hours), 1)} h depending on mode. Across the unique timed batches, these reported training runs account for about {fmt_num(timed_worker_hours, 0)} seed-worker-hours. The no-communication baselines have no message channel, so communication-specific shaping terms are inactive for those arms."
+    f"Timed EPGG batches account for about {fmt_num(timed_worker_hours, 0)} CPU seed-worker-hours from retained logs: learned with/without temporal features {fmt_num(compute_stats['comm_full_clean_learned']['batch_hours'], 1)}/{fmt_num(compute_stats['comm_reduced_zeroaux']['batch_hours'], 1)} h ({compute_stats['comm_full_clean_learned']['active_seed_processes']} seed processes), no-communication with/without temporal features {fmt_num(compute_stats['nocomm_full_canonical']['batch_hours'], 1)}/{fmt_num(compute_stats['nocomm_reduced_canonical']['batch_hours'], 1)} h ({compute_stats['nocomm_full_canonical']['active_seed_processes']} processes), and matched message-source controls {fmt_num(min(clean_batch_hours), 1)}--{fmt_num(max(clean_batch_hours), 1)} h ({compute_stats['comm_full_clean_learned']['active_seed_processes']} processes). Peak-memory measurements are unavailable."
+)
+
+role_final_rows = ROLE_ALLOCATION_TABLES["final_condition_by_seed"]
+role_conditions = sorted({row["condition"] for row in role_final_rows})
+role_seeds = sorted({row["seed"] for row in role_final_rows})
+role_targets = sorted({int(float(row["checkpoint_target_episodes"])) for row in role_final_rows})
+role_runs = len(role_final_rows)
+role_target = max(role_targets)
+print(
+    f"The role-allocation probe used the same CPU PPO code on a shorter untimed schedule: {role_runs} runs ({len(role_conditions)} conditions $\\times$ {len(role_seeds)} seeds) to about {fmt_num(role_target / 1000.0, 0)}k episodes, so we report run scale rather than wall-clock."
 )
 ```
-
-These are approximate wall-clock disclosures from batch logs, not CPU-core accounting. The logs record parallelism but not per-job peak memory; the compute disclosure is approximate, not exhaustive.
-
-# Broader impacts {#app:broader}
-
-This paper studies evaluation of emergent communication in a stylized social dilemma. Its main positive impact is scientific: sharper tests for distinguishing portable communication from shared-cue effects, and a clearer view of evaluation failures that can mislead MARL research. Better diagnosis of when messages are portable could improve how coordination systems are benchmarked.
-
-Possible negative impacts are indirect but real. Techniques that make agent coordination more effective or make message channels easier to exploit could be adapted in larger strategic multi-agent systems, including settings where strong coordination is undesirable. A more immediate risk is scientific overclaiming: if brittle, population-specific conventions are mistaken for portable shared protocols, researchers may deploy or interpret learned communication systems with more confidence than the evidence warrants.
 
 \clearpage
 
@@ -3758,9 +3801,13 @@ print(
 
 ## Game and training
 
-This appendix reports the second case study, which tests whether the framework gives different profiles in a structurally different setting. The task is a four-agent hidden-need role-allocation game. A hidden binary need state is observed only via local noisy signals. Each round, a hidden role lottery assigns one informed but ineligible agent (low-noise need signal, prohibitive volunteer cost), two capable but uninformed agents (eligible, costs drawn from $\{0.5, 0.9, 1.3, 1.7\}$), and one mostly-ineligible distractor. Volunteering pays a cost regardless of outcome; the efficient pattern is exactly one low-cost eligible volunteer when need is present and none when need is absent.
+This appendix reports the second case study, which tests whether the framework gives different profiles in a structurally different setting. The task is a four-agent hidden-need role-allocation game. A hidden binary need state is observed only via local noisy signals. Each round, a hidden role lottery assigns one informed but ineligible agent (low-noise need signal, prohibitive volunteer cost), two capable but uninformed agents (eligible, costs drawn from $\{0.5, 0.9, 1.3, 1.7\}$), and one mostly-ineligible distractor. Volunteering pays a cost regardless of outcome; the efficient pattern is exactly one low-cost eligible volunteer when need is present and none when need is absent. Each agent observes only its local need cue, own volunteer cost, own eligibility indicator, previous-round volunteer fraction, own previous action, and an EWMA of group volunteering; explicit role labels, other agents' costs or eligibilities, and the true need state are not observed.
 
-Welfare is per-round mean payoff averaged over agents and rounds; Table \ref{tbl-role-allocation-conditions} reports the no-communication baseline for scale. Information and ability are deliberately separated: random or fixed messages cannot condition volunteering on the hidden need state, in contrast to EPGG. Senders emit one of three symbols; training and evaluation otherwise mirror EPGG (independent PPO, 15 seeds, greedy evaluation); the anonymized review artifact includes the full role-allocation config.
+Welfare is per-round mean payoff averaged over agents and rounds; Table \ref{tbl-role-allocation-conditions} reports the no-communication baseline for scale.
+
+The design contrast with EPGG is the information/ability split: the informed-but-ineligible agent has the most reliable need cue, while capable agents can act but are less informed. A useful channel must carry need evidence from a sender who cannot use it to receivers who can; random or fixed messages lack the required state dependence. This makes role allocation a setting where learned content has a direct route to support endpoint performance.
+
+Senders emit one of three symbols; training and evaluation otherwise mirror EPGG (independent PPO, 15 seeds, greedy evaluation); the anonymized review artifact includes the full role-allocation config.
 
 ## Endpoint outcomes
 
@@ -3770,7 +3817,7 @@ Welfare is per-round mean payoff averaged over agents and rounds; Table \ref{tbl
 print(
     render_table_here(
         "tbl-role-allocation-conditions",
-        r"Role-allocation endpoint outcomes by condition. Entries are means $\pm$ SEM over 15 seeds. Exact-one need is the probability of exactly one volunteer when need is present; missed need is the probability of no eligible volunteer when need is present; false volunteer is the probability of volunteering when need is absent; low-cost volunteer is the rate at which the lowest-cost eligible agent volunteers when need is present.",
+        r"Role-allocation endpoint outcomes by condition. Entries are means $\pm$ SEM over 15 seeds. \textbf{Exact-one need}: probability of exactly one volunteer given need present. \textbf{Missed need}: probability of no eligible volunteer given need present. \textbf{False volunteer}: probability of at least one volunteer given need absent. \textbf{Low-cost volunteer}: rate at which the cheapest eligible agent volunteers when need is present.",
         render_role_allocation_condition_table(),
     )
 )
@@ -3810,7 +3857,7 @@ role_no_comm_missed = role_allocation_metric(
     condition="no_comm",
 )
 print(
-    f"Learned communication improves the basic metrics: welfare rises from {fmt_num(role_no_comm_welfare, 2)} ({tex_tt('no-comm')}) to {fmt_num(role_learned_welfare, 2)}, exact-one volunteering when need is present rises from {pct_math(role_no_comm_exact_one)} to {pct_math(role_learned_exact_one)}, and missed needs fall from {pct_math(role_no_comm_missed)} to {pct_math(role_learned_missed)}. Unlike EPGG, the random and fixed controls do not reproduce this profile."
+    f"Learned communication improves the basic metrics: welfare rises from {fmt_num(role_no_comm_welfare, 2)} ({tex_tt('no-comm')}) to {fmt_num(role_learned_welfare, 2)}, exact-one volunteering when need is present rises from {pct_math(role_no_comm_exact_one)} to {pct_math(role_learned_exact_one)}, and missed needs fall from {pct_math(role_no_comm_missed)} to {pct_math(role_learned_missed)}. Unlike EPGG, the random and fixed controls fall short of this profile."
 )
 ```
 
@@ -3822,15 +3869,13 @@ print(
 print(
     render_figure_here(
         "fig-role-allocation-dashboard",
-        r"Role-allocation dashboard. A: welfare across the six final-checkpoint conditions. B: content-attribution interventions on the learned policy (message shuffle, slot permutation, uniform and public replacement) versus natural messages. C: cross-seed portability---same-seed, raw foreign, rank-aligned, and best post hoc symbol remapping. D: per-seed symbol polarity for the informed-agent need-present message and the capable claim-to-volunteer message; numbers are seed counts out of 15. Bars show means $\pm$ SEM (Panels A--C); D shows seed counts within symbol segments.",
+        r'Role-allocation dashboard. A: welfare across the six final-checkpoint conditions. B: content-attribution interventions on the learned policy (message shuffle, slot permutation, uniform and public replacement) versus natural messages. C: cross-seed portability---same-seed, raw foreign, rank-aligned, and best post hoc symbol remapping. D: Convention fragmentation. For each of two communicative roles---informed-agent "need is present" (top) and capable-agent "claim the volunteer slot" (bottom)---the bar shows how the 15 seeds distribute over symbols 0/1/2 as their dominant token (segment width = seed count). A solid bar would mean a shared convention; the observed spread means seeds use different symbols for the same meaning. Bars show means $\pm$ SEM for Panels A--B; Panel C error bars are descriptive over evaluated pairings.',
         ROLE_ALLOCATION_DASHBOARD_FIG,
-        width=r"0.98\linewidth",
+        width=r"0.90\linewidth",
         position="H",
     )
 )
 ```
-
-Final = 30k checkpoint (primary, matching the EPGG final-checkpoint convention); best-checkpoint = within-seed best, reported as a robustness check since later final checkpoints can drift downward.
 
 ```{python}
 #| echo: false
@@ -3838,7 +3883,7 @@ Final = 30k checkpoint (primary, matching the EPGG final-checkpoint convention);
 print(
     render_table_here(
         "tbl-role-allocation-endpoint",
-        r"Role-allocation content-attribution interventions for the learned policy. Message shuffle destroys roundwise learned content while preserving a learned stream; slot permutation changes sender-slot identity. Values are welfare means $\pm$ SEM over 15 seeds.",
+        r"Role-allocation content-attribution interventions for the learned policy. Message shuffle destroys roundwise learned content while preserving a learned stream; slot permutation changes sender-slot identity. Final is the 30k checkpoint; best-checkpoint is the within-seed best checkpoint, included as a robustness check. Values are welfare means $\pm$ SEM over 15 seeds.",
         render_role_allocation_endpoint_table(),
     )
 )
@@ -3870,8 +3915,9 @@ role_no_comm_welfare = role_allocation_metric(
     "eval_mean_welfare",
     condition="no_comm",
 )
+role_slot_below_no_comm = role_no_comm_welfare - role_final_slot
 print(
-    f"Content attribution passes in this setting: shuffling learned messages across rounds reduces welfare from {fmt_num(role_final_natural, 2)} to {fmt_num(role_final_shuffle, 2)}, and slot permutation drives it below the no-communication baseline ({fmt_num(role_final_slot, 2)} vs. {fmt_num(role_no_comm_welfare, 2)})."
+    f"Content attribution passes: shuffling learned messages across rounds reduces welfare from {fmt_num(role_final_natural, 2)} to {fmt_num(role_final_shuffle, 2)}. Slot permutation is more severe: routing messages through the wrong sender slots lowers welfare to {fmt_num(role_final_slot, 2)}, which is {fmt_num(role_slot_below_no_comm, 1)} below the no-communication baseline of {fmt_num(role_no_comm_welfare, 2)}. Learned content can therefore actively mislead when attributed to the wrong sender."
 )
 ```
 
@@ -3883,7 +3929,7 @@ print(
 print(
     render_table_here(
         "tbl-role-allocation-semantics",
-        r"Role-allocation sender-encoding and receiver-use diagnostics for the learned final checkpoint. Entries are means $\pm$ SEM over seeds where the diagnostic is defined.",
+        r"Role-allocation sender-encoding, receiver-use, and forced-symbol receiver-influence diagnostics for the learned final checkpoint. Entries are means $\pm$ SEM over seeds or role-pair probes where the diagnostic is defined.",
         render_role_allocation_semantics_table(),
     )
 )
@@ -3907,12 +3953,17 @@ role_capable_decoded_need_pp = 100.0 * role_allocation_metric(
     "capable_vol_delta_decoded_need1_minus_0",
     condition="learned",
 )
+role_forced_informed_capable = role_allocation_receiver_effect("informed", "capable", "mean")
+role_forced_capable_capable = role_allocation_receiver_effect("capable", "capable", "mean")
+role_forced_ineligible_max = role_allocation_max_ineligible_receiver_effect()
 print(
-    f"The learned message stream carries need information: informed-agent messages have positive mutual information with the hidden need state ({fmt_num(role_need_mi, 3)} bits) and decode above chance ({fmt_pct(role_need_decode, 1)}\\%). Receiver-use diagnostics show that capable agents volunteer about {fmt_num(role_capable_decoded_need_pp, 1)} pp more when decoded need is present than absent. Both effects are modest given the binary need state and three-symbol vocabulary, but they align with task logic---encoding and receiver influence both pass."
+    f"The learned message stream carries need information: informed-agent messages have positive mutual information with the hidden need state ({fmt_num(role_need_mi, 3)} bits) and decode above chance ({fmt_pct(role_need_decode, 1)}\\%). Receiver-use diagnostics show that capable agents volunteer about {fmt_num(role_capable_decoded_need_pp, 1)} pp more when decoded need is present than absent. A forced-symbol probe gives causal effect ranges of {fmt_num(100.0 * role_forced_informed_capable, 1)} pp for informed-to-capable pairs and {fmt_num(100.0 * role_forced_capable_capable, 1)} pp for capable-to-capable pairs, while the largest mean effect on ineligible receiver roles is {fmt_num(100.0 * role_forced_ineligible_max, 3)} pp. Thus encoding, receiver use, and causal receiver influence pass in this probe."
 )
 ```
 
 ## Portability
+
+Rank alignment is an outcome-blind remapping: symbols are ordered within each seed by their seed-level semantic ranks from the message-semantics summaries, and donor rank 1/2/3 is mapped to receiver rank 1/2/3. Post hoc best permutation instead evaluates all six possible three-symbol remappings after seeing cross-play outcomes and reports the outcome-best one.
 
 ```{python}
 #| echo: false
@@ -3920,7 +3971,7 @@ print(
 print(
     render_table_here(
         "tbl-role-allocation-cross-play",
-        r"Role-allocation cross-seed transfer. Same seed keeps co-trained sender and receiver conventions; raw foreign pairs a receiver with independently trained senders; rank aligned applies a rank-based alignment; post hoc best permutation chooses the best symbol remapping after seeing the outcome. Values are welfare means $\pm$ SEM.",
+        r"Role-allocation cross-seed transfer. Same seed keeps co-trained conventions; raw foreign pairs independently trained senders and receivers; rank aligned applies rank-based alignment; post hoc best permutation chooses the best symbol remapping after seeing outcomes. Values are mean welfare. Foreign rows summarize 210 ordered receiver-donor evaluations and are descriptive because trained populations are reused.",
         render_role_allocation_cross_play_table(),
     )
 )
@@ -3953,6 +4004,12 @@ role_mapping_total = sum(
     for row in ROLE_ALLOCATION_TABLES["posthoc_symbol_mapping_counts"]
 )
 print(
-    f"Portability nevertheless fails. Same-seed welfare is {fmt_num(role_same_seed, 2)}, raw foreign-pair welfare is {fmt_num(role_raw_foreign, 2)}, and even the best post hoc symbol remapping reaches only {fmt_num(role_posthoc, 2)}. The identity mapping is selected in {role_identity_count}/{role_mapping_total} foreign sender--receiver pairs, with all six symbol permutations used at least once. Thus the role-allocation probe gives a contrasting profile: content-bearing but nonportable conventions."
+    f"Portability nevertheless fails: same-seed welfare is {fmt_num(role_same_seed, 2)}, raw foreign-pair welfare is {fmt_num(role_raw_foreign, 2)}, and best post hoc remapping reaches only {fmt_num(role_posthoc, 2)}. The post hoc mapping selects identity in {role_identity_count}/{role_mapping_total} pairs and uses all six permutations. Together with EPGG, this gives the complementary dissociation: channel structure can help even when learned content is nonportable, and learned content can help while remaining seed-specific. In the role-allocation probe, content supports endpoint performance but stays tied to the training seed."
 )
 ```
+
+# Broader impacts {#app:broader}
+
+This paper studies evaluation of emergent communication in a stylized social dilemma. Its main positive impact is scientific: sharper tests for distinguishing portable communication from shared-cue effects, and a clearer view of evaluation failures that can mislead MARL research. Better diagnosis of when messages are portable could improve how coordination systems are benchmarked.
+
+Two negative impacts are worth flagging. First, techniques that make agent coordination more effective or make message channels easier to exploit could be adapted in larger strategic multi-agent systems, including adversarial or collusive settings where stronger inter-agent coordination is the harm, such as automated bidders coordinating on price or recommender agents coordinating on engagement. Second, brittle, population-specific conventions could be mistaken for portable shared protocols, leading researchers to deploy or interpret learned communication systems with more confidence than the evidence warrants.

@@ -1,5 +1,5 @@
 {
-  "artifact_bytes": 5439082,
+  "artifact_bytes": 5438748,
   "artifact_files": 80,
   "description": "Anonymized NeurIPS review artifact.",
   "filtered_metric_jsonl_bytes": 6770,
@@ -12,6 +12,6 @@
     "Metric JSONL files are filtered to the rows consumed by the manuscript render.",
     "Smoke-run and full-training command templates are documented in docs/COMMANDS.md."
   ],
-  "source_bytes": 1267906,
+  "source_bytes": 1272706,
   "source_files": 117
 }

@@ -68,7 +68,7 @@
 \item {\bf Open access to data and code}
     \item[] Question: Does the paper provide open access to the data and code, with sufficient instructions to faithfully reproduce the main experimental results, as described in supplemental material?
     \item[] Answer: \answerYes{}
-    \item[] Justification: The anonymized artifact includes source code, tests, manuscript source, dependencies, role-allocation code/configs, and the summary artifacts used by the manuscript render. It excludes large checkpoints, raw traces, and full training logs. The artifact documentation gives exact commands for rendering, quick tests, smoke runs, and full-training templates. Results in the submitted PDF are regenerated from the included summary artifacts. The released code will use the MIT License, with documentation and generated report assets released under CC BY 4.0 where applicable.
+    \item[] Justification: The anonymized artifact includes source code, tests, manuscript source, dependencies, role-allocation code/configs, and the summary artifacts used by the manuscript render. It excludes large checkpoints, raw traces, and full training logs. The artifact documentation gives exact commands for rendering, quick tests, smoke runs, and full-training templates. Results in the submitted PDF are regenerated from the included summary artifacts. Code under MIT; documentation, manuscript figures, and tabular artifacts under CC BY 4.0.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that paper does not include experiments requiring code.
@@ -96,7 +96,7 @@
 \item {\bf Experiment statistical significance}
     \item[] Question: Does the paper report error bars suitably and correctly defined or other appropriate information about the statistical significance of the experiments?
     \item[] Answer: \answerYes{}
-    \item[] Justification: Main figures and tables report SEM over 15 training seeds, and paired intervention or transfer contrasts report sign-flip p-values where those contrasts matter. Captions and text specify what the uncertainty summaries represent.
+    \item[] Justification: Paired contrasts (intervention vs natural, donor vs same-seed) report sign-flip permutation p-values; main effects report SEM over 15 seeds. Captions and text specify what the uncertainty summaries represent.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that the paper does not include experiments.
@@ -113,7 +113,7 @@
 \item {\bf Experiments compute resources}
     \item[] Question: For each experiment, does the paper provide sufficient information on the computer resources (type of compute workers, memory, time of execution) needed to reproduce the experiments?
     \item[] Answer: \answerYes{}
-    \item[] Justification: Appendix~\ref{app:repro} reports the CPU-only execution setting, batch parallelism, approximate wall-clock for the main 15-seed training runs, and aggregate seed-worker-hour totals derived from batch logs. Peak per-job memory was not logged separately, so the disclosure is approximate rather than exhaustive. The artifact documentation states that full retraining is compute-heavy and gives command templates rather than presenting it as a lightweight one-command rerun.
+    \item[] Justification: Appendix~\ref{app:repro} reports CPU-only training with 15 active seed processes per condition. The timed batches behind every main-text figure account for $\approx$1399 seed-worker-hours in aggregate; per-condition wall-clock is 7--37 h. Per-job peak memory was not logged. The artifact documentation states that full retraining is compute-heavy and gives command templates rather than presenting it as a lightweight one-command rerun.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that the paper does not include experiments.
@@ -137,7 +137,7 @@
 \item {\bf Broader impacts}
     \item[] Question: Does the paper discuss both potential positive societal impacts and negative societal impacts of the work performed?
     \item[] Answer: \answerYes{}
-    \item[] Justification: Appendix~\ref{app:broader} discusses both positive impacts, such as better diagnosis of MARL communication, and negative or misuse-relevant impacts, such as overclaiming portability and improving coordination mechanisms in strategic multi-agent systems.
+    \item[] Justification: Appendix~\ref{app:broader} discusses both positive impacts (sharper diagnostics for MARL communication) and negative or misuse-relevant impacts (scientific overclaiming when brittle conventions are mistaken for portable protocols, and possible adaptation in strategic multi-agent settings such as collusive bidding or recommender coordination).
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that there is no societal impact of the work performed.
@@ -170,7 +170,7 @@
     \hline
     Asset & License/terms & Use in this work \\
     \hline
-    PyTorch 2.10.0 & BSD-style / BSD-3-Clause & Neural-network implementation and PPO training. \\
+    PyTorch 2.10.0 & BSD-3-Clause & Neural-network implementation and PPO training. \\
     PettingZoo 1.18.1 & MIT License & Multi-agent environment interface. \\
     OpenAI Gym 0.23.0 & MIT License & Observation and action spaces. \\
     NumPy, pandas, SciPy, scikit-learn & BSD-3-Clause or modified BSD & Numerical analysis, tables, statistics, and surrogate checks. \\
