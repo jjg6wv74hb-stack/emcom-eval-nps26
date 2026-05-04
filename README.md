@@ -1,6 +1,6 @@
 # EPGG Emergent Communication Evaluation
 
-This repository contains code, manuscript sources, and saved result artifacts for the paper *What Does Emergent Communication Actually Communicate?*
+This repository contains code, manuscript sources, and saved result artifacts for the paper *What Does Emergent Communication Actually Communicate? An Evaluation Framework Separating Channel Structure from Learned Content*.
 
 ## Quick Start
 
